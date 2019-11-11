@@ -22,10 +22,6 @@ public class CategoryController {
     @GetMapping("/categories")
     public List<Category> list() {
         List<Category> categories = categoryService.list();
-        for (Category category : categories
-        ) {
-            System.out.printf("结果" + category.getName() + "\t");
-        }
         return categories;
     }
 

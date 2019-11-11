@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>专用测试页面</title>
+    <script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
+</head>
+<body>
+<div id="vue_dat">
+    <h3>site:{{site}}</h3>
+    <h3>url:{{url}}</h3>
+    <h3>{{details()}}</h3>
+</div>
+<script type="text/javascript">
+var vm = new Vue({
+    el:'#vue_dat',
+    data:{
+        site:"测试专用",
+        url:'http://localhost:8080',
+        alexa:1000
+    },
+    methods:{
+        details:function () {
+            return this.site + "我总会成功的";
+        }
+    }
+});
+</script>
+</body>
+</html>

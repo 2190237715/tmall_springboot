@@ -39,4 +39,9 @@ public class CategoryServiceImpl implements CategoryService {
         return new Page4Navigator<>(pageFromJPA, navigatePages);
     }
 
+    @Override
+    public void add(Category category) {
+        categoryDao.save(category);
+    }
+
 }

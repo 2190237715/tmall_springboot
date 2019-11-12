@@ -7,24 +7,24 @@ import java.util.List;
 /**
  * @author fuqiangxin
  * @version 1.0
- * @ClassName Page4Navigator--页面导航器
+ * @ClassName Page4Navigator--分页工具类（对分页对象pageFromJPA的封装和扩展）
  * @createDate 2019/11/12 08:49
  */
 public class Page4Navigator<T> {
-    private Page<T> pageFromJPA;//页面jpa
+    private Page<T> pageFromJPA;//用于传递分页对象
     private int navigatePages;//导航栏总数量
     private int totalPages;//总页数
     private int number;//页数
-    private long totalElements;
-    private int size;//每页显示数量
-    private int numberOfElements;
-    private List<T> content;
-    private boolean isHasContent;
+    private long totalElements;//总数据
+    private int size;//每页显示最多数量
+    private int numberOfElements;//每页显示数量
+    private List<T> content;//数据集合
+    private boolean isHasContent;//是否有数据
     private boolean first;//页面
     private boolean last;//尾页
     private boolean isHasNext;//是否下一页
     private boolean isHasPrevious;//是否上一页
-    private int[] navigatepageNums;
+    private int[] navigatepageNums;//导航栏数据集合
 
     //这个空的分页是为了 Redis 从 json格式转换为 Page4Navigator 对象而专门提供的
     public Page4Navigator() {

@@ -1,6 +1,7 @@
 package com.xiaoxin.demo.service;
 
 import com.xiaoxin.demo.pojo.Category;
+import com.xiaoxin.demo.util.Page4Navigator;
 
 import java.util.List;
 
@@ -18,5 +19,6 @@ public interface CategoryService {
      */
     public List<Category> list();
 
+    public Page4Navigator<Category> list(int start, int size, int navigatePages);
 
 }

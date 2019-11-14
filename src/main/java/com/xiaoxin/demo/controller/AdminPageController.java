@@ -26,4 +26,9 @@ public class AdminPageController {
     public String index() {
         return "admin/index";
     }
+
+    @GetMapping(value = "/admin_category_edit")
+    public String editCategory() {
+        return "admin/editCategory";
+    }
 }

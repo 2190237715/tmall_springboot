@@ -27,12 +27,27 @@ public interface CategoryService {
      * @param navigatePages
      * @return
      */
-    public Page4Navigator<Category> list(int start, int size, int navigatePages);
+    public Page4Navigator<Category> categorylist(int start, int size, int navigatePages);
 
     /**
      * 新增
      *
-     * @param category--分类实体
+     * @param category--类别实体
      */
-    public void add(Category category);
+    public void addCategory(Category category);
+
+    /**
+     * 删除
+     *
+     * @param id--类别ID
+     */
+    public void deleteCategoryById(int id);
+
+    /**
+     * 根据ID查询Category
+     *
+     * @param id--类别ID
+     * @return
+     */
+    public Category findCategoryById(int id);
 }

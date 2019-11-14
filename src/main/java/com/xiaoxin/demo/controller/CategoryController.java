@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.List;
 /**
  * @author fuqiangxin
  * @version 1.0
- * @ClassName CategoryController--RESTFUL服务器控制器
+ * @ClassName CategoryController--类别控制器（RESTFUL方式）
  * @createDate 2019/11/5 19:40
  */
 @RestController
@@ -30,7 +29,7 @@ public class CategoryController {
     /**
      * 查询非分页的总列表
      *
-     * @return
+     * @return 返回类别列表--暂时不用
      */
     @GetMapping("/categories/nopage")
     public List<Category> list() {
@@ -43,24 +42,69 @@ public class CategoryController {
      *
      * @param start--当前页数
      * @param size--显示条数
-     * @return
+     * @return 返回类别分页列表
      */
     @GetMapping("/categories")
-    public Page4Navigator<Category> list(@RequestParam(value = "start", defaultValue = "0") int start,
-                                         @RequestParam(value = "size", defaultValue = "5") int size) {
+    public Page4Navigator<Category> categorylist(@RequestParam(value = "start", defaultValue = "0") int start,
+                                                 @RequestParam(value = "size", defaultValue = "5") int size) {
         start = start < 0 ? 0 : start;
         //navigatePages:导航栏数量（暂定为5）
-        Page4Navigator<Category> page = categoryService.list(start, 5, 5);
+        Page4Navigator<Category> page = categoryService.categorylist(start, size, 5);
         return page;
     }
 
+    /**
+     * 新增类别实体
+     *
+     * @param category--类别实体
+     * @param image--图片
+     * @param request
+     * @return 类别实体
+     * @throws IOException
+     */
     @PostMapping("/categories")
-    public Object add(Category category, MultipartFile image, HttpServletRequest request) throws IOException {
-        categoryService.add(category);
+    public Category addCategory(Category category, MultipartFile image, HttpServletRequest request) throws IOException {
+        categoryService.addCategory(category);
         saveOrUpdateImageFile(category, image, request);
         return category;
     }
 
+    /**
+     * 根据ID删除类别
+     *
+     * @param id
+     * @param request
+     * @return
+     */
+    @DeleteMapping("/categories/{id}")
+    public String deleteCategoryById(@PathVariable("id") int id, HttpServletRequest request) {
+        System.out.println("id=====" + id);
+        categoryService.deleteCategoryById(id);
+        File file = new File(request.getServletContext().getRealPath("img/category"));
+        file.delete();
+        return null;
+    }
+
+    /**
+     * 根据ID查询类别实体
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/categories/{id}")
+    public Category findCategoryById(@PathVariable("id") int id) {
+        Category category = categoryService.findCategoryById(id);
+        return category;
+    }
+
+    /**
+     * 图片转换--jpg
+     *
+     * @param category
+     * @param image
+     * @param request
+     * @throws IOException
+     */
     public void saveOrUpdateImageFile(Category category, MultipartFile image, HttpServletRequest request) throws IOException {
         File imageFolder = new File(request.getServletContext().getRealPath("img/category"));
         File file = new File(imageFolder, category.getId() + ".jpg");

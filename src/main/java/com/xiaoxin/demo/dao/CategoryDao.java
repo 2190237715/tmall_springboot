@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
  * @createDate 2019/11/5 17:08
  */
 @Repository
-public interface CategoryDao extends JpaRepository<Category, Integer> , PagingAndSortingRepository<Category, Integer> {
+public interface CategoryDao extends JpaRepository<Category, Integer>  {
 
 }

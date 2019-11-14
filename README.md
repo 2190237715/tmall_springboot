@@ -1,6 +1,4 @@
 # tmall_springboot
-项目目录结构
-! [avator]（/Users/fuqiangxin/java/demo/tmall_springboot/src/main/webapp/img/category/tree.png）
 **分类管理：**
 分页查询
 新增功能

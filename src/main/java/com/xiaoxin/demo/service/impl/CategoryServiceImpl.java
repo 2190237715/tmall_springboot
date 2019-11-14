@@ -12,11 +12,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author fuqiangxin
  * @version 1.0
- * @ClassName CategoryServiceImpl--分类业务实现类
+ * @ClassName CategoryServiceImpl--类别业务实现类
  * @createDate 2019/11/5 17:22
  */
 @Service
@@ -32,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Page4Navigator<Category> list(int start, int size, int navigatePages) {
+    public Page4Navigator<Category> categorylist(int start, int size, int navigatePages) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(start, size, sort);
         Page pageFromJPA = categoryDao.findAll(pageable);
@@ -40,8 +41,19 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void add(Category category) {
+    public void addCategory(Category category) {
         categoryDao.save(category);
     }
+
+    @Override
+    public void deleteCategoryById(int id) {
+        categoryDao.deleteById(id);
+    }
+
+    @Override
+    public Category findCategoryById(int id) {
+        return categoryDao.findById(id).get();
+    }
+
 
 }

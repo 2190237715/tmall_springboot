@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author fuqiangxin
@@ -53,6 +52,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category findCategoryById(int id) {
         return categoryDao.findById(id).get();
+    }
+
+    @Override
+    public void editCategory(Category category) {
+        categoryDao.save(category);
     }
 
 

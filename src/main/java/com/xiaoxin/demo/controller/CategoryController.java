@@ -26,6 +26,7 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
+
     /**
      * 查询非分页的总列表
      *
@@ -54,7 +55,7 @@ public class CategoryController {
     }
 
     /**
-     * 新增类别实体
+     * 新增类别
      *
      * @param category--类别实体
      * @param image--图片
@@ -78,7 +79,6 @@ public class CategoryController {
      */
     @DeleteMapping("/categories/{id}")
     public String deleteCategoryById(@PathVariable("id") int id, HttpServletRequest request) {
-        System.out.println("id=====" + id);
         categoryService.deleteCategoryById(id);
         File file = new File(request.getServletContext().getRealPath("img/category"));
         file.delete();
@@ -98,6 +98,25 @@ public class CategoryController {
     }
 
     /**
+     * 修改类别
+     *
+     * @param category
+     * @param image
+     * @param request
+     * @return
+     * @throws IOException
+     */
+    @PutMapping("/categories/{id}")
+    public Category updateCategory(Category category, MultipartFile image, HttpServletRequest request) throws IOException {
+        categoryService.editCategory(category);
+        if (null != image) {
+            saveOrUpdateImageFile(category, image, request);
+        }
+        return category;
+    }
+
+
+    /**
      * 图片转换--jpg
      *
      * @param category
@@ -115,4 +134,5 @@ public class CategoryController {
         BufferedImage img = ImageUtil.change2jpg(file);
         ImageIO.write(img, "jpg", file);
     }
+
 }

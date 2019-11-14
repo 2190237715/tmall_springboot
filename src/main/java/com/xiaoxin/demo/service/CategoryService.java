@@ -50,4 +50,12 @@ public interface CategoryService {
      * @return
      */
     public Category findCategoryById(int id);
+
+    /**
+     * 修改
+     *
+     * @param category--类别实体
+     */
+    public void editCategory(Category category);
+
 }

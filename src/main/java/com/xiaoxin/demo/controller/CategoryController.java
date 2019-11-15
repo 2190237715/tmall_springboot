@@ -26,34 +26,6 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-
-    /**
-     * 查询非分页的总列表
-     *
-     * @return 返回类别列表--暂时不用
-     */
-    @GetMapping("/categories/nopage")
-    public List<Category> list() {
-        List<Category> categories = categoryService.list();
-        return categories;
-    }
-
-    /**
-     * 分页查询
-     *
-     * @param start--当前页数
-     * @param size--显示条数
-     * @return 返回类别分页列表
-     */
-    @GetMapping("/categories")
-    public Page4Navigator<Category> categorylist(@RequestParam(value = "start", defaultValue = "0") int start,
-                                                 @RequestParam(value = "size", defaultValue = "5") int size) {
-        start = start < 0 ? 0 : start;
-        //navigatePages:导航栏数量（暂定为5）
-        Page4Navigator<Category> page = categoryService.categorylist(start, size, 5);
-        return page;
-    }
-
     /**
      * 新增类别
      *
@@ -85,6 +57,25 @@ public class CategoryController {
         return null;
     }
 
+
+    /**
+     * 修改类别
+     *
+     * @param category
+     * @param image
+     * @param request
+     * @return
+     * @throws IOException
+     */
+    @PutMapping("/categories/ ")
+    public Category editCategory(Category category, MultipartFile image, HttpServletRequest request) throws IOException {
+        categoryService.editCategory(category);
+        if (null != image) {
+            saveOrUpdateImageFile(category, image, request);
+        }
+        return category;
+    }
+
     /**
      * 根据ID查询类别实体
      *
@@ -98,23 +89,31 @@ public class CategoryController {
     }
 
     /**
-     * 修改类别
+     * 查询非分页的总列表
      *
-     * @param category
-     * @param image
-     * @param request
-     * @return
-     * @throws IOException
+     * @return 返回类别列表--暂时不用
      */
-    @PutMapping("/categories/{id}")
-    public Category updateCategory(Category category, MultipartFile image, HttpServletRequest request) throws IOException {
-        categoryService.editCategory(category);
-        if (null != image) {
-            saveOrUpdateImageFile(category, image, request);
-        }
-        return category;
+    @GetMapping("/categories/nopage")
+    public List<Category> list() {
+        List<Category> categories = categoryService.list();
+        return categories;
     }
 
+    /**
+     * 分页查询
+     *
+     * @param start--当前页数
+     * @param size--显示条数
+     * @return 返回类别分页列表
+     */
+    @GetMapping("/categories")
+    public Page4Navigator<Category> categorylist(@RequestParam(value = "start", defaultValue = "0") int start,
+                                                 @RequestParam(value = "size", defaultValue = "5") int size) {
+        start = start < 0 ? 0 : start;
+        //navigatePages:导航栏数量（暂定为5）
+        Page4Navigator<Category> page = categoryService.categoryList(start, size, 5);
+        return page;
+    }
 
     /**
      * 图片转换--jpg

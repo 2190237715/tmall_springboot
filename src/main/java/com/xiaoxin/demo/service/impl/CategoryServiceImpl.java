@@ -25,19 +25,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     CategoryDao categoryDao;
 
-    @Override
-    public List<Category> list() {
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        return categoryDao.findAll(sort);
-    }
-
-    @Override
-    public Page4Navigator<Category> categorylist(int start, int size, int navigatePages) {
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        Pageable pageable = PageRequest.of(start, size, sort);
-        Page pageFromJPA = categoryDao.findAll(pageable);
-        return new Page4Navigator<>(pageFromJPA, navigatePages);
-    }
 
     @Override
     public void addCategory(Category category) {
@@ -50,13 +37,27 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public void editCategory(Category category) {
+        categoryDao.save(category);
+    }
+
+    @Override
     public Category findCategoryById(int id) {
         return categoryDao.findById(id).get();
     }
 
     @Override
-    public void editCategory(Category category) {
-        categoryDao.save(category);
+    public List<Category> list() {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        return categoryDao.findAll(sort);
+    }
+
+    @Override
+    public Page4Navigator<Category> categoryList(int start, int size, int navigatePages) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(start, size, sort);
+        Page pageFromJPA = categoryDao.findAll(pageable);
+        return new Page4Navigator<>(pageFromJPA, navigatePages);
     }
 
 

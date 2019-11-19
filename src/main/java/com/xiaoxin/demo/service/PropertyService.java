@@ -22,7 +22,7 @@ public interface PropertyService {
      *
      * @param id
      */
-    public void deleteProperty(int id);
+    public void deletePropertyById(int id);
 
     /**
      * 修改属性
@@ -40,7 +40,7 @@ public interface PropertyService {
     public Property findPropertyById(int id);
 
     /**
-     * 基于Category查询分页列表
+     * 基于Category查询属性分页列表
      *
      * @param cid--Category
      * @param start

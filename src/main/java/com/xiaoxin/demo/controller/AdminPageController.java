@@ -51,12 +51,44 @@ public class AdminPageController {
 
     /**
      * 跳转属性编辑页面
+     *
      * @return
      */
     @GetMapping(value = "admin_property_edit")
-    public String editProperty(){
+    public String editProperty() {
         return "admin/editProperty";
     }
+
+    /**
+     * 跳转产品首页
+     *
+     * @return
+     */
+    @GetMapping(value = "/admin_product_list")
+    public String listProduct() {
+        return "admin/listProduct";
+    }
+
+    /**
+     * 跳转产品编辑页面
+     *
+     * @return
+     */
+    @GetMapping(value = "admin_product_edit")
+    public String editProduct() {
+        return "admin/editProduct";
+    }
+
+    /**
+     * 跳转产品图片首页
+     *
+     * @return
+     */
+    @GetMapping(value = "/admin_productImage_list")
+    public String listProductImage() {
+        return "admin/listProductImage";
+    }
+
 
     /**
      * 跳转测试页面

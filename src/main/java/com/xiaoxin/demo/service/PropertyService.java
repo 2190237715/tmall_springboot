@@ -1,7 +1,10 @@
 package com.xiaoxin.demo.service;
 
+import com.xiaoxin.demo.pojo.Category;
 import com.xiaoxin.demo.pojo.Property;
 import com.xiaoxin.demo.util.Page4Navigator;
+
+import java.util.List;
 
 /**
  * @author fuqiangxin
@@ -49,4 +52,11 @@ public interface PropertyService {
      * @return
      */
     public Page4Navigator<Property> propertyList(int cid, int start, int size, int navigatePages);
+
+    /**
+     * 根据Category查询属性列表
+     * @param category
+     * @return
+     */
+    public List<Property> findByCategory(Category category);
 }

@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author fuqiangxin
  * @version 1.0
@@ -23,4 +25,12 @@ public interface PropertyDao extends JpaRepository<Property, Integer> {
      * @return
      */
     Page<Property> findByCategory(Category category, Pageable pageable);
+
+    /**
+     * 根据Category查询属性列表
+     *
+     * @param category
+     * @return
+     */
+    List<Property> findByCategory(Category category);
 }

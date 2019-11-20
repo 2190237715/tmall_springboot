@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author fuqiangxin
  * @version 1.0
@@ -54,5 +56,10 @@ public class PropertyServiceImpl implements PropertyService {
         Pageable pageable = PageRequest.of(start, size, sort);
         Page<Property> pageFromJPA = propertyDao.findByCategory(category, pageable);
         return new Page4Navigator(pageFromJPA, navigatePages);
+    }
+
+    @Override
+    public List<Property> findByCategory(Category category) {
+        return propertyDao.findByCategory(category);
     }
 }

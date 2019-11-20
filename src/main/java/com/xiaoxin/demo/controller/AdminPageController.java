@@ -89,6 +89,15 @@ public class AdminPageController {
         return "admin/listProductImage";
     }
 
+    /**
+     * 跳转产品属性编辑页面
+     *
+     * @return
+     */
+    @GetMapping(value = "admin_propertyValue_edit")
+    public String editPropertyValue() {
+        return "admin/editPropertyValue";
+    }
 
     /**
      * 跳转测试页面

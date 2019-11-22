@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * @author fuqiangxin
  * @version 1.0
- * @ClassName PropertyController--属性控制器
+ * @ClassName PropertyController--属性管理控制器
  * @createDate 2019/11/15 15:42
  */
 @RestController

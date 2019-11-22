@@ -37,7 +37,6 @@
                 },
                 update:function(bean){
                     var url =  this.uri;
-                    var id = bean.id;
                     $("#pvid"+bean.id).css("border","2px solid yellow");
                     axios.put(url,bean).then(function(response) {
                         if(bean.id==response.data.id)

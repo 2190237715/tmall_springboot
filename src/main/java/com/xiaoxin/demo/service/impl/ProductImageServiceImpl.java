@@ -7,7 +7,6 @@ import com.xiaoxin.demo.service.ProductImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.Signature;
 import java.util.List;
 
 /**

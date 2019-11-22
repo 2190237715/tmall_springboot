@@ -57,7 +57,7 @@ public class CategoryServiceImpl implements CategoryService {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(start, size, sort);
         Page<Category> pageFromJPA = categoryDao.findAll(pageable);
-        return new Page4Navigator<>(pageFromJPA, navigatePages);
+        return new Page4Navigator(pageFromJPA, navigatePages);
     }
 
 

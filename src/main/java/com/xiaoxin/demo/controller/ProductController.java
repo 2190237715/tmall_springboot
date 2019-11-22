@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * @author fuqiangxin
  * @version 1.0
- * @ClassName ProductController--产品控制器
+ * @ClassName ProductController--产品管理控制器
  * @createDate 2019/11/19 15:18
  */
 @RestController

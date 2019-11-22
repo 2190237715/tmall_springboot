@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * @author fuqiangxin
  * @version 1.0
- * @ClassName ProductImageController
+ * @ClassName ProductImageController--产品图片管理控制器
  * @createDate 2019/11/19 17:28
  */
 @RestController

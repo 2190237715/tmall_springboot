@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 /**
  * @author fuqiangxin
  * @version 1.0
- * @ClassName AdminPageController--用于跳转
+ * @ClassName AdminPageController--跳转管理控制器
  * @createDate 2019/11/5 19:34
  */
 @Controller
@@ -97,6 +97,16 @@ public class AdminPageController {
     @GetMapping(value = "admin_propertyValue_edit")
     public String editPropertyValue() {
         return "admin/editPropertyValue";
+    }
+
+    /**
+     * 跳转用户首页
+     *
+     * @return
+     */
+    @GetMapping(value = "admin_user_list")
+    public String listUser() {
+        return "admin/listUser";
     }
 
     /**

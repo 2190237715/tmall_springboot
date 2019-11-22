@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * @author fuqiangxin
  * @version 1.0
- * @ClassName CategoryController--类别控制器（RESTFUL方式）
+ * @ClassName CategoryController--类别管理控制器（RESTFUL方式）
  * @createDate 2019/11/5 19:40
  */
 @RestController

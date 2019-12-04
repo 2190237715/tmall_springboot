@@ -21,7 +21,7 @@ public interface PropertyValueService {
      *
      * @param product
      */
-    public void init(Product product);
+    void init(Product product);
 
     /**
      * 根据产品和属性查询产品属性

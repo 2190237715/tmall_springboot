@@ -110,6 +110,16 @@ public class AdminPageController {
     }
 
     /**
+     * 跳转订单首页
+     *
+     * @return
+     */
+    @GetMapping(value = "admin_order_list")
+    public String listOrder() {
+        return "admin/listOrder";
+    }
+
+    /**
      * 跳转测试页面
      *
      * @return

@@ -41,6 +41,7 @@ public class ProductController {
      */
     @DeleteMapping("/products/{id}")
     public String deleteProductById(@PathVariable("id") int id) {
+        //TODO 产品删除没做级联
         productService.deleteProductById(id);
         return null;
     }

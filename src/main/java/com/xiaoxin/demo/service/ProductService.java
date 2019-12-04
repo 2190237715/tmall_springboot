@@ -15,21 +15,21 @@ public interface ProductService {
      *
      * @param product
      */
-    public void addProduct(Product product);
+    void addProduct(Product product);
 
     /**
      * 删除属性
      *
      * @param id
      */
-    public void deleteProductById(int id);
+    void deleteProductById(int id);
 
     /**
      * 修改属性
      *
      * @param product
      */
-    public void editProduct(Product product);
+    void editProduct(Product product);
 
     /**
      * 根据ID查询属性
@@ -37,7 +37,7 @@ public interface ProductService {
      * @param id
      * @return
      */
-    public Product findProductById(int id);
+    Product findProductById(int id);
 
     /**
      * 基于Category查询产品分页列表
@@ -48,7 +48,7 @@ public interface ProductService {
      * @param navigatePages
      * @return
      */
-    public Page4Navigator<Product> ProductList(int cid, int start, int size, int navigatePages);
+    Page4Navigator<Product> ProductList(int cid, int start, int size, int navigatePages);
 
 
 }

@@ -9,6 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
 @SpringBootTest
 class ApplicationTests {
     @Autowired
@@ -29,6 +33,15 @@ class ApplicationTests {
         System.err.println("------------------当前第几页："+page.getNumber());
         System.err.println("------------------当前页面的List数据集:"+page.getContent());
         System.out.println("------------------当前页的记录数："+page.getNumberOfElements());
+    }
+
+    @Test
+    void map() {
+        Map map = new HashMap();
+        map.put(null,1);
+        map.put("1",2);
+        map.put(null,null);
+        System.out.println("map:"+map);
     }
 
 }

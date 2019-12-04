@@ -18,14 +18,14 @@ public interface CategoryService {
      *
      * @param category--类别实体
      */
-    public void addCategory(Category category);
+    void addCategory(Category category);
 
     /**
      * 删除
      *
      * @param id--类别ID
      */
-    public void deleteCategoryById(int id);
+    void deleteCategoryById(int id);
 
 
     /**
@@ -33,7 +33,7 @@ public interface CategoryService {
      *
      * @param category--类别实体
      */
-    public void editCategory(Category category);
+    void editCategory(Category category);
 
     /**
      * 根据ID查询Category
@@ -41,14 +41,14 @@ public interface CategoryService {
      * @param id--类别ID
      * @return
      */
-    public Category findCategoryById(int id);
+    Category findCategoryById(int id);
 
     /**
      * 查询列表
      *
      * @return
      */
-    public List<Category> list();
+    List<Category> list();
 
     /**
      * 分页查询
@@ -58,6 +58,6 @@ public interface CategoryService {
      * @param navigatePages
      * @return
      */
-    public Page4Navigator<Category> categoryList(int start, int size, int navigatePages);
+    Page4Navigator<Category> categoryList(int start, int size, int navigatePages);
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 import org.unbescape.html.HtmlEscape;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -47,7 +48,7 @@ public class ForeRESTController {
     /**
      * 注册
      *
-     * @param user
+     * @param user 用户实体
      * @return
      */
     @PostMapping("/foreregister")
@@ -63,5 +64,24 @@ public class ForeRESTController {
         user.setPassword(password);
         userService.addUser(user);
         return Result.success();
+    }
+
+    /**
+     * 登陆
+     *
+     * @param userParam 前台传的用户实体
+     * @param session   会画，用于存取用户实体
+     * @return
+     */
+    @PostMapping("/forelogin")
+    public Result login(@RequestBody User userParam, HttpSession session) {
+        String name = HtmlUtils.htmlEscape(userParam.getName());
+        User user = userService.login(name, userParam.getPassword());
+        if (null == user) {
+            String message = "账号密码错误，请重新输入！";
+            return Result.fail(message);
+        }
+        session.setAttribute("user", user);
+        return Result.success(user);
     }
 }

@@ -40,6 +40,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User login(String name, String password) {
+        return userDao.getByNameAndPassword(name, password);
+    }
+
+    @Override
     public Page4Navigator<User> UserList(int start, int size, int navigatePages) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(start, size, sort);

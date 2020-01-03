@@ -36,6 +36,15 @@ public interface UserService {
     boolean isExist(String naem);
 
     /**
+     * 根据用户名与密码判断是否可以登陆
+     *
+     * @param name
+     * @param password
+     * @return
+     */
+    User login(String name, String password);
+
+    /**
      * 查询用户列表
      *
      * @param start

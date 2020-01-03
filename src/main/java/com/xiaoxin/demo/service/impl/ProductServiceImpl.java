@@ -87,7 +87,7 @@ public class ProductServiceImpl implements ProductService {
     public void fillByRow(List<Category> categories) {
         int productNumberEachRow = 8;
         for (Category category : categories) {
-            List<Product> products = listByCategory(category);
+            List<Product> products = category.getProducts();
             List<List<Product>> productsByRow = new ArrayList<>();
             for (int i = 0; i < products.size(); i += productNumberEachRow) {
                 int size = i + productNumberEachRow;

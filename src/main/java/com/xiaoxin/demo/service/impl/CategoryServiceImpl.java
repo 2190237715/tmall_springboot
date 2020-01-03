@@ -64,13 +64,13 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void removeCategoryFromProduct(Category category) {
         List<Product> products = category.getProducts();
-        if (products.size() > 0) {
+        if (null != products) {
             for (Product product : products) {
                 product.setCategory(null);
             }
         }
         List<List<Product>> productsByRows = category.getProductsByRow();
-        if (productsByRows.size() > 0) {
+        if (null != productsByRows) {
             for (List<Product> productList : productsByRows) {
                 for (Product product : productList) {
                     product.setCategory(null);

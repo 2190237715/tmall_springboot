@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 /**
  * @author fuqiangxin
  * @version 1.0
- * @ClassName AdminPageController--跳转管理控制器
+ * @ClassName AdminPageController--后台跳转管理控制器
  * @createDate 2019/11/5 19:34
  */
 @Controller

@@ -10,5 +10,38 @@ import com.xiaoxin.demo.util.Page4Navigator;
  * @createDate 2019/11/22 15:23
  */
 public interface UserService {
+
+    /**
+     * 新增用户
+     *
+     * @param user
+     * @return
+     */
+    User addUser(User user);
+
+    /**
+     * 根据用户名查询用户
+     *
+     * @param name
+     * @return
+     */
+    User findUserByName(String name);
+
+    /**
+     * 是否被注册
+     *
+     * @param naem
+     * @return
+     */
+    boolean isExist(String naem);
+
+    /**
+     * 查询用户列表
+     *
+     * @param start
+     * @param size
+     * @param navigatePages
+     * @return
+     */
     Page4Navigator<User> UserList(int start, int size, int navigatePages);
 }

@@ -4,6 +4,7 @@ import com.xiaoxin.demo.dao.UserDao;
 import com.xiaoxin.demo.pojo.User;
 import com.xiaoxin.demo.service.UserService;
 import com.xiaoxin.demo.util.Page4Navigator;
+import org.hsqldb.lib.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +22,22 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     @Autowired
     UserDao userDao;
+
+    @Override
+    public User addUser(User user) {
+        return userDao.save(user);
+    }
+
+    @Override
+    public User findUserByName(String name) {
+        return userDao.findByName(name);
+    }
+
+    @Override
+    public boolean isExist(String name) {
+        User user = findUserByName(name);
+        return null != user;
+    }
 
     @Override
     public Page4Navigator<User> UserList(int start, int size, int navigatePages) {

@@ -3,6 +3,7 @@ package com.xiaoxin.demo.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author fuqiangxin
@@ -20,6 +21,12 @@ public class Category {
     private int id;
     private String name;
 
+    @Transient
+    private List<Product> products;
+    @Transient
+    private List<List<Product>> productsByRow;
+
+
     public int getId() {
         return id;
     }
@@ -34,5 +41,21 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public List<List<Product>> getProductsByRow() {
+        return productsByRow;
+    }
+
+    public void setProductsByRow(List<List<Product>> productsByRow) {
+        this.productsByRow = productsByRow;
     }
 }

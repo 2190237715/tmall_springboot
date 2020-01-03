@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author fuqiangxin
  * @version 1.0
@@ -16,10 +18,18 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductDao extends JpaRepository<Product, Integer> {
     /**
-     * 基于Category进行产品分页查询
+     * 基于Category进行产品查询
+     *
      * @param category
      * @param pageable
      * @return
      */
     Page<Product> findByCategory(Category category, Pageable pageable);
+
+    /**
+     * 基于Category进行产品ID排序查询
+     * @param category
+     * @return
+     */
+    List<Product> findByCategoryOrderById(Category category);
 }

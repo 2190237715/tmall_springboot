@@ -13,4 +13,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserDao extends JpaRepository<User, Integer> {
+    /**
+     * 根据用户名判断是否注册
+     *
+     * @param name
+     * @return
+     */
+    User findByName(String name);
 }

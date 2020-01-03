@@ -60,4 +60,17 @@ public interface CategoryService {
      */
     Page4Navigator<Category> categoryList(int start, int size, int navigatePages);
 
+    /**
+     * 删除产品上的分类
+     *
+     * @param category
+     */
+    void removeCategoryFromProduct(Category category);
+
+    /**
+     * 删除产品上的分类集合
+     *
+     * @param categories
+     */
+    void removeCategoryFromProduct(List<Category> categories);
 }

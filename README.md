@@ -1,8 +1,6 @@
 # tmall_springboot
-**分类管理：**
-分页查询
-新增功能
-删除功能
-编辑功能
-修改功能
+
+`首页：`http://localhost:8080/xiaoxin/home
+
+`后台管理：`http://localhost:8080/xiaoxin/admin_category_list
 

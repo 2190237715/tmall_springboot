@@ -1,17 +1,15 @@
 package com.xiaoxin.demo.controller;
 
+import com.xiaoxin.demo.comparator.*;
 import com.xiaoxin.demo.pojo.*;
 import com.xiaoxin.demo.service.*;
 import com.xiaoxin.demo.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
-import org.unbescape.html.HtmlEscape;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author fuqiangxin
@@ -124,4 +122,33 @@ public class ForeRESTController {
         }
         return Result.fail("未登陆");
     }
+
+    @GetMapping("forecategory/{cid}")
+    public Object category(@PathVariable("cid") int cid, String sort) {
+        Category category = categoryService.findCategoryById(cid);
+        productService.fill(category);
+        productService.setSaleAndReviewNumber(category.getProducts());
+        categoryService.removeCategoryFromProduct(category);
+        if (null != sort) {
+            switch (sort) {
+                case "all":
+                    Collections.sort(category.getProducts(), new ProductAllComparator());
+                    break;
+                case "date":
+                    Collections.sort(category.getProducts(), new ProductDateComparator());
+                    break;
+                case "price":
+                    Collections.sort(category.getProducts(), new ProductPriceComparator());
+                    break;
+                case "reciew":
+                    Collections.sort(category.getProducts(), new ProductReviewComparator());
+                    break;
+                case "saleCount":
+                    Collections.sort(category.getProducts(), new ProductSaleCountComparator());
+                    break;
+            }
+        }
+        return category;
+    }
+
 }

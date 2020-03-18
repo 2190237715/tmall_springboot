@@ -2,6 +2,7 @@ package com.xiaoxin.demo.service;
 
 import com.xiaoxin.demo.pojo.Order;
 import com.xiaoxin.demo.pojo.OrderItem;
+import com.xiaoxin.demo.pojo.Product;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,4 +20,11 @@ public interface OrderItemService {
     void fill(Order order);
 
     List<OrderItem> findByOrder(Order order);
+
+    int getSaleCount(Product product);
+
+    List<OrderItem> findByOrderOrderByIdDesc(Order order);
+
+    List<OrderItem> findByProduct(Product product);
+
 }

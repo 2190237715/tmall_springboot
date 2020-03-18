@@ -3,6 +3,8 @@ package com.xiaoxin.demo.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * @author fuqiangxin
  * @version 1.0
@@ -91,8 +93,15 @@ public class ForePageController {
         return "fore/search";
     }
 
+    /**
+     * 退出 清除session里的user值
+     *
+     * @param session
+     * @return
+     */
     @GetMapping("/forelogout")
-    public String logout() {
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
         return "redirect:home";
     }
 }

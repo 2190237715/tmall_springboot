@@ -3,6 +3,7 @@ package com.xiaoxin.demo.service.impl;
 import com.xiaoxin.demo.dao.OrderItemDao;
 import com.xiaoxin.demo.pojo.Order;
 import com.xiaoxin.demo.pojo.OrderItem;
+import com.xiaoxin.demo.pojo.Product;
 import com.xiaoxin.demo.service.OrderItemService;
 import com.xiaoxin.demo.service.ProductImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,4 +51,31 @@ public class OrderItemServiceImpl implements OrderItemService {
     public List<OrderItem> findByOrder(Order order) {
         return orderItemDao.findByOrderOrderByIdDesc(order);
     }
+
+    @Override
+    public int getSaleCount(Product product) {
+        List<OrderItem> orderItems = findByProduct(product);
+        int result = 0;
+        for (OrderItem orderItem : orderItems
+        ) {
+            if (null != orderItem.getOrder()) {
+                if (null != orderItem.getOrder() && null != orderItem.getOrder().getPayDate()) {
+                    result += orderItem.getNumber();
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<OrderItem> findByOrderOrderByIdDesc(Order order) {
+        return orderItemDao.findByOrderOrderByIdDesc(order);
+    }
+
+    @Override
+    public List<OrderItem> findByProduct(Product product) {
+        return orderItemDao.findByProduct(product);
+    }
+
+
 }

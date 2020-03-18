@@ -1,10 +1,7 @@
 package com.xiaoxin.demo.controller;
 
-import com.xiaoxin.demo.pojo.Category;
-import com.xiaoxin.demo.pojo.User;
-import com.xiaoxin.demo.service.CategoryService;
-import com.xiaoxin.demo.service.ProductService;
-import com.xiaoxin.demo.service.UserService;
+import com.xiaoxin.demo.pojo.*;
+import com.xiaoxin.demo.service.*;
 import com.xiaoxin.demo.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +9,9 @@ import org.springframework.web.util.HtmlUtils;
 import org.unbescape.html.HtmlEscape;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author fuqiangxin
@@ -29,6 +28,12 @@ public class ForeRESTController {
     ProductService productService;
     @Autowired
     UserService userService;
+    @Autowired
+    ReviewService reviewService;
+    @Autowired
+    ProductImageService productImageService;
+    @Autowired
+    PropertyValueService propertyValueService;
 
     /**
      * 填充产品清除重复类别
@@ -70,7 +75,7 @@ public class ForeRESTController {
      * 登陆
      *
      * @param userParam 前台传的用户实体
-     * @param session   会画，用于存取用户实体
+     * @param session   会话，用于存取用户实体
      * @return
      */
     @PostMapping("/forelogin")
@@ -83,5 +88,40 @@ public class ForeRESTController {
         }
         session.setAttribute("user", user);
         return Result.success(user);
+    }
+
+    @GetMapping("/foreproduct/{pid}")
+    public Object product(@PathVariable("pid") int pid) {
+        Product product = productService.findProductById(pid);
+        List<ProductImage> productSingleImages = productImageService.listSingleProductImages(product);
+        List<ProductImage> productDetailImages = productImageService.listDetailProductImages(product);
+        product.setProductSingleImages(productSingleImages);
+        product.setProductDetailImages(productDetailImages);
+
+        List<PropertyValue> propertyValues = propertyValueService.propertyValueList(product);
+        List<Review> reviews = reviewService.reviewList(product);
+        productService.setSaleAndReviewNumber(product);
+        productImageService.setFirstProductImage(product);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("product", product);
+        map.put("pvs", propertyValues);
+        map.put("reviews", reviews);
+        return Result.success(map);
+    }
+
+    /**
+     * 获取session里的user 判断是否为空 即判断是否登陆
+     *
+     * @param session
+     * @return
+     */
+    @GetMapping("forecheckLogin")
+    public Object checkLogin(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (null != user) {
+            return Result.success();
+        }
+        return Result.fail("未登陆");
     }
 }

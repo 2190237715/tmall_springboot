@@ -1,11 +1,14 @@
 package com.xiaoxin.demo.service.impl;
 
 import com.xiaoxin.demo.dao.CategoryDao;
+import com.xiaoxin.demo.dao.OrderItemDao;
 import com.xiaoxin.demo.dao.ProductDao;
 import com.xiaoxin.demo.pojo.Category;
 import com.xiaoxin.demo.pojo.Product;
+import com.xiaoxin.demo.service.OrderItemService;
 import com.xiaoxin.demo.service.ProductImageService;
 import com.xiaoxin.demo.service.ProductService;
+import com.xiaoxin.demo.service.ReviewService;
 import com.xiaoxin.demo.util.Page4Navigator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,6 +34,10 @@ public class ProductServiceImpl implements ProductService {
     ProductDao productDao;
     @Autowired
     CategoryDao categoryDao;
+    @Autowired
+    OrderItemService orderItemService;
+    @Autowired
+    ReviewService reviewService;
     @Autowired
     ProductImageService productImageService;
 
@@ -96,6 +103,22 @@ public class ProductServiceImpl implements ProductService {
                 productsByRow.add(productsOfEachRow);
             }
             category.setProductsByRow(productsByRow);
+        }
+    }
+
+    @Override
+    public void setSaleAndReviewNumber(Product product) {
+        int saleCount = orderItemService.getSaleCount(product);
+        product.setSaleCount(saleCount);
+        int reviewCount = reviewService.getCount(product);
+        product.setReviewCount(reviewCount);
+    }
+
+    @Override
+    public void setSaleAndReviewNumber(List<Product> products) {
+        for (Product product : products
+        ) {
+            setSaleAndReviewNumber(product);
         }
     }
 }

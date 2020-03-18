@@ -82,4 +82,17 @@ public interface ProductService {
      */
     void fillByRow(List<Category> categories);
 
+    /**
+     * 设置销量数量
+     *
+     * @param product
+     */
+    void setSaleAndReviewNumber(Product product);
+
+    /**
+     * 设置评价数量
+     *
+     * @param products
+     */
+    void setSaleAndReviewNumber(List<Product> products);
 }

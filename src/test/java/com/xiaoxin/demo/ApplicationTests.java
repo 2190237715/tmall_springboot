@@ -38,11 +38,54 @@ class ApplicationTests {
 
     @Test
     void map() {
-        Map map = new HashMap();
-        map.put(null, 1);
-        map.put("1", 2);
-        map.put(null, null);
-        System.out.println("map:" + map);
+        class contract{
+            private String case_name;
+            private String particular_url;
+            private String cover_url;
+            private String category;
+            private String label;
+            public String getCase_name() {
+                return case_name;
+            }
+            public void setCase_name(String case_name) {
+                this.case_name = case_name;
+            }
+            public String getParticular_url() {
+                return particular_url;
+            }
+            public void setParticular_url(String particular_url) {
+                this.particular_url = particular_url;
+            }
+            public String getCover_url() {
+                return cover_url;
+            }
+            public void setCover_url(String cover_url) {
+                this.cover_url = cover_url;
+            }
+            public String getCategory() {
+                return category;
+            }
+            public void setCategory(String category) {
+                this.category = category;
+            }
+            public String getLabel() {
+                return label;
+            }
+            public void setLabel(String label) {
+                this.label = label;
+            }
+
+            @Override
+            public String toString() {
+                return "contract{" +
+                        "case_name='" + case_name + '\'' +
+                        ", particular_url='" + particular_url + '\'' +
+                        ", cover_url='" + cover_url + '\'' +
+                        ", category='" + category + '\'' +
+                        ", label='" + label + '\'' +
+                        '}';
+            }
+        }
     }
 
     @Test

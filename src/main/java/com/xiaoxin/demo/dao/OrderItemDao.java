@@ -2,6 +2,7 @@ package com.xiaoxin.demo.dao;
 
 import com.xiaoxin.demo.pojo.Order;
 import com.xiaoxin.demo.pojo.OrderItem;
+import com.xiaoxin.demo.pojo.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -21,4 +22,12 @@ public interface OrderItemDao extends JpaRepository<OrderItem, Integer> {
      * @return
      */
     List<OrderItem> findByOrderOrderByIdDesc(Order order);
+
+    /**
+     * 增加根据产品获取OrderItem
+     *
+     * @param product
+     * @return
+     */
+    List<OrderItem> findByProduct(Product product);
 }

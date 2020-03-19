@@ -151,4 +151,16 @@ public class ForeRESTController {
         return category;
     }
 
+
+    @PostMapping("foresearch")
+    public Object search(String keyword) {
+        if (null == keyword) {
+            keyword = "";
+        }
+        List<Product> products = productService.search(keyword, 0, 20);
+        productImageService.setFirstProductImages(products);
+        productService.setSaleAndReviewNumber(products);
+        return products;
+    }
+
 }

@@ -3,6 +3,7 @@ package com.xiaoxin.demo.service;
 import com.xiaoxin.demo.pojo.Category;
 import com.xiaoxin.demo.pojo.Product;
 import com.xiaoxin.demo.util.Page4Navigator;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -95,4 +96,14 @@ public interface ProductService {
      * @param products
      */
     void setSaleAndReviewNumber(List<Product> products);
+
+    /**
+     * 根据名字进行模糊查询
+     *
+     * @param keyword
+     * @param start
+     * @param size
+     * @return
+     */
+    List<Product> search(String keyword, int start, int size);
 }

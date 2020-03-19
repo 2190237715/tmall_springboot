@@ -121,4 +121,13 @@ public class ProductServiceImpl implements ProductService {
             setSaleAndReviewNumber(product);
         }
     }
+
+    @Override
+    public List<Product> search(String keyword, int start, int size) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(start, size, sort);
+        List<Product> products = productDao.findByNameLike("%" + keyword + "%", pageable);
+        return products;
+    }
+
 }

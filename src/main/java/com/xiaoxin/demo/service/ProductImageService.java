@@ -16,6 +16,7 @@ public interface ProductImageService {
     String type_single = "single";
     String type_detail = "detail";
 
+
     /**
      * 新增产品图片
      *
@@ -67,5 +68,4 @@ public interface ProductImageService {
      * @param products
      */
     void setFirstProductImages(List<Product> products);
-
 }

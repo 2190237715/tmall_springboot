@@ -73,21 +73,41 @@ public class ForePageController {
         return "fore/payed";
     }
 
+    /**
+     * 产品
+     *
+     * @return
+     */
     @GetMapping(value = "/product")
     public String product() {
         return "fore/product";
     }
 
+    /**
+     * 注册成功
+     *
+     * @return
+     */
     @GetMapping(value = "/registerSuccess")
     public String registerSuccess() {
         return "fore/registerSuccess";
     }
 
+    /**
+     * 评价
+     *
+     * @return
+     */
     @GetMapping(value = "/review")
     public String review() {
         return "fore/review";
     }
 
+    /**
+     * 搜索
+     *
+     * @return
+     */
     @GetMapping(value = "/search")
     public String searchResult() {
         return "fore/search";

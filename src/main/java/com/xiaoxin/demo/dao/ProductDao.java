@@ -28,8 +28,18 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
 
     /**
      * 基于Category进行产品ID排序查询
+     *
      * @param category
      * @return
      */
     List<Product> findByCategoryOrderById(Category category);
+
+    /**
+     * 根据名字进行模糊查询
+     *
+     * @param keyword
+     * @param pageable
+     * @return
+     */
+    List<Product> findByNameLike(String keyword, Pageable pageable);
 }

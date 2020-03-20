@@ -3,7 +3,7 @@ package com.xiaoxin.demo.service;
 import com.xiaoxin.demo.pojo.Order;
 import com.xiaoxin.demo.pojo.OrderItem;
 import com.xiaoxin.demo.pojo.Product;
-import org.springframework.stereotype.Service;
+import com.xiaoxin.demo.pojo.User;
 
 import java.util.List;
 
@@ -23,8 +23,22 @@ public interface OrderItemService {
 
     int getSaleCount(Product product);
 
+    /**
+     * 暂时没用到  排序的第二种方案
+     *
+     * @param order
+     * @return
+     */
     List<OrderItem> findByOrderOrderByIdDesc(Order order);
 
     List<OrderItem> findByProduct(Product product);
+
+    List<OrderItem> listByUser(User user);
+
+    void updateOrderItem(OrderItem orderItem);
+
+    void addOrderItem(OrderItem orderItem);
+
+    OrderItem findOrderItemById(int oid);
 
 }

@@ -4,6 +4,7 @@ import com.xiaoxin.demo.dao.OrderItemDao;
 import com.xiaoxin.demo.pojo.Order;
 import com.xiaoxin.demo.pojo.OrderItem;
 import com.xiaoxin.demo.pojo.Product;
+import com.xiaoxin.demo.pojo.User;
 import com.xiaoxin.demo.service.OrderItemService;
 import com.xiaoxin.demo.service.ProductImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +50,9 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     public List<OrderItem> findByOrder(Order order) {
-        return orderItemDao.findByOrderOrderByIdDesc(order);
+        return null;
     }
+
 
     @Override
     public int getSaleCount(Product product) {
@@ -72,9 +74,30 @@ public class OrderItemServiceImpl implements OrderItemService {
         return orderItemDao.findByOrderOrderByIdDesc(order);
     }
 
+
     @Override
     public List<OrderItem> findByProduct(Product product) {
         return orderItemDao.findByProduct(product);
+    }
+
+    @Override
+    public List<OrderItem> listByUser(User user) {
+        return orderItemDao.findByUserAndOrderIsNull(user);
+    }
+
+    @Override
+    public void updateOrderItem(OrderItem orderItem) {
+        orderItemDao.save(orderItem);
+    }
+
+    @Override
+    public void addOrderItem(OrderItem orderItem) {
+        orderItemDao.save(orderItem);
+    }
+
+    @Override
+    public OrderItem findOrderItemById(int oid) {
+        return orderItemDao.findById(oid).get();
     }
 
 

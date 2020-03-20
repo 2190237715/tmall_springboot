@@ -1,6 +1,7 @@
 package com.xiaoxin.demo.service.impl;
 
 import com.xiaoxin.demo.dao.ProductImageDao;
+import com.xiaoxin.demo.pojo.OrderItem;
 import com.xiaoxin.demo.pojo.Product;
 import com.xiaoxin.demo.pojo.ProductImage;
 import com.xiaoxin.demo.service.ProductImageService;
@@ -62,6 +63,14 @@ public class ProductImageServiceImpl implements ProductImageService {
     public void setFirstProductImages(List<Product> products) {
         for (Product product : products) {
             setFirstProductImage(product);
+        }
+    }
+
+    @Override
+    public void setFirstProductImagesOnOrderItems(List<OrderItem> orderItems) {
+        for (OrderItem orderItem : orderItems
+        ) {
+            setFirstProductImage(orderItem.getProduct());
         }
     }
 }

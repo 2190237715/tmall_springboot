@@ -1,5 +1,6 @@
 package com.xiaoxin.demo.service;
 
+import com.xiaoxin.demo.pojo.OrderItem;
 import com.xiaoxin.demo.pojo.Product;
 import com.xiaoxin.demo.pojo.ProductImage;
 
@@ -68,4 +69,11 @@ public interface ProductImageService {
      * @param products
      */
     void setFirstProductImages(List<Product> products);
+
+    /**
+     * 将订单详情设置第一张图片
+     *
+     * @param orderItems
+     */
+    void setFirstProductImagesOnOrderItems(List<OrderItem> orderItems);
 }

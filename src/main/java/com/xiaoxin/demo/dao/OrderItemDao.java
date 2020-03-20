@@ -3,6 +3,7 @@ package com.xiaoxin.demo.dao;
 import com.xiaoxin.demo.pojo.Order;
 import com.xiaoxin.demo.pojo.OrderItem;
 import com.xiaoxin.demo.pojo.Product;
+import com.xiaoxin.demo.pojo.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -30,4 +31,14 @@ public interface OrderItemDao extends JpaRepository<OrderItem, Integer> {
      * @return
      */
     List<OrderItem> findByProduct(Product product);
+
+    /**
+     * 根据登陆的用户查询是否存在订单
+     *
+     * @param user
+     * @return
+     */
+    List<OrderItem> findByUserAndOrderIsNull(User user);
+
+
 }

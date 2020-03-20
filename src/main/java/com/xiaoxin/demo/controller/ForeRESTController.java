@@ -29,6 +29,8 @@ public class ForeRESTController {
     @Autowired
     ReviewService reviewService;
     @Autowired
+    OrderItemService orderItemService;
+    @Autowired
     ProductImageService productImageService;
     @Autowired
     PropertyValueService propertyValueService;
@@ -161,6 +163,77 @@ public class ForeRESTController {
         productImageService.setFirstProductImages(products);
         productService.setSaleAndReviewNumber(products);
         return products;
+    }
+
+    /**
+     * 新增订单项OrderItem
+     *
+     * @param pid
+     * @param num     页面数值
+     * @param session
+     * @return
+     */
+    private int byOneAndAddCart(int pid, int num, HttpSession session) {
+        int orderItemId = 0;
+        boolean found = false;
+        Product product = productService.findProductById(pid);
+        User user = (User) session.getAttribute("user");
+        List<OrderItem> orderItems = orderItemService.listByUser(user);
+        for (OrderItem orderItem : orderItems
+        ) {
+            if (orderItem.getProduct().getId() == pid) {
+                orderItem.setNumber(orderItem.getNumber() + num);
+                orderItemService.updateOrderItem(orderItem);
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setNumber(num);
+            orderItem.setProduct(product);
+            orderItem.setUser(user);
+            orderItemService.addOrderItem(orderItem);
+        }
+        orderItemId = orderItems.size();
+        return orderItemId;
+    }
+
+    /**
+     * 购物车
+     *
+     * @param pid
+     * @param num
+     * @param session
+     * @return
+     */
+    @GetMapping("forebuyone")
+    public Object buyOne(int pid, int num, HttpSession session) {
+        return byOneAndAddCart(pid, num, session);
+    }
+
+    /**
+     * 下单结算
+     *
+     * @param session
+     * @return
+     */
+    @GetMapping("forebuy")
+    public Object buy(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        List<OrderItem> orderItems = orderItemService.listByUser(user);
+        float total = 0;
+        for (OrderItem orderItem : orderItems
+        ) {
+            total += orderItem.getProduct().getPromotePrice() * orderItem.getNumber();
+            orderItemService.addOrderItem(orderItem);
+        }
+        productImageService.setFirstProductImagesOnOrderItems(orderItems);
+        session.setAttribute("ois", orderItems);
+        Map<String, Object> map = new HashMap<>();
+        map.put("orderItems", orderItems);
+        map.put("total", total);
+        return Result.success(map);
     }
 
 }

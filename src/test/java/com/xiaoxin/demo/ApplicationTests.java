@@ -20,10 +20,25 @@ public class ApplicationTests {
         array.add("a");
         System.out.println(array.size());
     }
+
     @Test
     public void numTest() {
         float sum = 0;
-        sum = (float) (4935.00+2208.70+1710.00+11038.80+5928.00);
+        sum = (float) (4935.00 + 2208.70 + 1710.00 + 11038.80 + 5928.00);
         System.out.println(sum);
+    }
+
+    @Test
+    public void strTest() {
+        String Str = new String("www.runoob.com");
+
+        System.out.print("返回值 :");
+        System.out.println(Str.startsWith("www"));
+
+        System.out.print("返回值 :");
+        System.out.println(Str.startsWith("runoob"));
+
+        System.out.print("返回值 :");
+        System.out.println(Str.startsWith("runoob", 4));
     }
 }

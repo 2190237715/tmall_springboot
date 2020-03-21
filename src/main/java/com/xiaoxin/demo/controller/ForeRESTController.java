@@ -125,6 +125,13 @@ public class ForeRESTController {
         return Result.fail("未登陆");
     }
 
+    /**
+     * 各种排序
+     *
+     * @param cid
+     * @param sort
+     * @return
+     */
     @GetMapping("forecategory/{cid}")
     public Object category(@PathVariable("cid") int cid, String sort) {
         Category category = categoryService.findCategoryById(cid);
@@ -154,6 +161,12 @@ public class ForeRESTController {
     }
 
 
+    /**
+     * 全局搜索
+     *
+     * @param keyword
+     * @return
+     */
     @PostMapping("foresearch")
     public Object search(String keyword) {
         if (null == keyword) {
@@ -200,7 +213,7 @@ public class ForeRESTController {
     }
 
     /**
-     * 购物车
+     * 立即购买
      *
      * @param pid
      * @param num
@@ -234,6 +247,34 @@ public class ForeRESTController {
         map.put("orderItems", orderItems);
         map.put("total", total);
         return Result.success(map);
+    }
+
+    /**
+     * 加入购物车
+     *
+     * @param pid
+     * @param num
+     * @param session
+     * @return
+     */
+    @GetMapping("foreaddCart")
+    public Object addCart(int pid, int num, HttpSession session) {
+        byOneAndAddCart(pid, num, session);
+        return Result.success();
+    }
+
+    /**
+     * 选中购物车
+     *
+     * @param session
+     * @return
+     */
+    @GetMapping("forecart")
+    public Object cart(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        List<OrderItem> orderItems = orderItemService.listByUser(user);
+        productImageService.setFirstProductImagesOnOrderItems(orderItems);
+        return orderItems;
     }
 
 }

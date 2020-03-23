@@ -1,6 +1,7 @@
 package com.xiaoxin.demo.config;
 
 import com.xiaoxin.demo.interceptor.LoginInterceptor;
+import com.xiaoxin.demo.interceptor.OtherInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -19,11 +20,19 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         return new LoginInterceptor();
     }
 
+    @Bean
+    public OtherInterceptor getOtherInterceptor() {
+        return new OtherInterceptor();
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(getLoginIntercepter())
-                .addPathPatterns("/**").excludePathPatterns("/", "/login", "/login.html", "/home",
+        String staticStr[] = {"/", "/login", "/login.html", "/home",
                 "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg",
-                "/**/*.jpeg", "/**/*.gif", "/**/fonts/*", "/**/*.svg");
+                "/**/*.jpeg", "/**/*.gif", "/**/fonts/*", "/**/*.svg"};
+        registry.addInterceptor(getLoginIntercepter())
+                .addPathPatterns("/**").excludePathPatterns(staticStr);
+        registry.addInterceptor(getOtherInterceptor())
+                .addPathPatterns("/**").excludePathPatterns(staticStr);
     }
 }

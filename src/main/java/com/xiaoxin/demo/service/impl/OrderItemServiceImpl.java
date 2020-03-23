@@ -96,8 +96,13 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
-    public OrderItem findOrderItemById(int oid) {
-        return orderItemDao.findById(oid).get();
+    public OrderItem findOrderItemById(int oiid) {
+        return orderItemDao.findById(oiid).get();
+    }
+
+    @Override
+    public void deleteOrderItem(int oiid) {
+        orderItemDao.deleteById(oiid);
     }
 
 

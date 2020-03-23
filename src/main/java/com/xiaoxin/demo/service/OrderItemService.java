@@ -39,6 +39,8 @@ public interface OrderItemService {
 
     void addOrderItem(OrderItem orderItem);
 
-    OrderItem findOrderItemById(int oid);
+    OrderItem findOrderItemById(int oiid);
+
+    void deleteOrderItem(int oiid);
 
 }

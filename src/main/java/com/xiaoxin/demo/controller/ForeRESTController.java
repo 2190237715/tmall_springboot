@@ -232,14 +232,14 @@ public class ForeRESTController {
      * @return
      */
     @GetMapping("forebuy")
-    public Object buy(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        List<OrderItem> orderItems = orderItemService.listByUser(user);
+    public Object buy(HttpSession session, String[] oiid) {
+        List<OrderItem> orderItems = new ArrayList<>();
         float total = 0;
-        for (OrderItem orderItem : orderItems
-        ) {
+        for (String strid : oiid) {
+            int id = Integer.parseInt(strid);
+            OrderItem orderItem = orderItemService.findOrderItemById(id);
             total += orderItem.getProduct().getPromotePrice() * orderItem.getNumber();
-            orderItemService.addOrderItem(orderItem);
+            orderItems.add(orderItem);
         }
         productImageService.setFirstProductImagesOnOrderItems(orderItems);
         session.setAttribute("ois", orderItems);
@@ -277,4 +277,45 @@ public class ForeRESTController {
         return orderItems;
     }
 
+    /**
+     * 修改购物车
+     *
+     * @param session
+     * @param pid
+     * @param num
+     * @return
+     */
+    @GetMapping("forechangeOrderItem")
+    public Object changeOrderItem(HttpSession session, int pid, int num) {
+        User user = (User) session.getAttribute("user");
+        if (null == user) {
+            return Result.fail("用户未登陆");
+        }
+        List<OrderItem> orderItems = orderItemService.listByUser(user);
+        for (OrderItem orderItem : orderItems) {
+            if (orderItem.getProduct().getId() == pid) {
+                orderItem.setNumber(num);
+                orderItemService.updateOrderItem(orderItem);
+                break;
+            }
+        }
+        return Result.success();
+    }
+
+    /**
+     * 删除订单列表
+     *
+     * @param session
+     * @param oiid
+     * @return
+     */
+    @GetMapping("foredeleteOrderItem")
+    public Object deleteOrderItem(HttpSession session, int oiid) {
+        User user = (User) session.getAttribute("user");
+        if (null == user) {
+            return Result.fail("用户未登陆");
+        }
+        orderItemService.deleteOrderItem(oiid);
+        return Result.success();
+    }
 }

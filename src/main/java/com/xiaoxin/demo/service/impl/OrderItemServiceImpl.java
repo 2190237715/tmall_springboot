@@ -46,11 +46,12 @@ public class OrderItemServiceImpl implements OrderItemService {
         order.setTotal(total);
         order.setOrderItems(orderItems);
         order.setTotalNumber(totalNumber);
+        order.setOrderItems(orderItems);
     }
 
     @Override
     public List<OrderItem> findByOrder(Order order) {
-        return null;
+        return orderItemDao.findByOrderOrderByIdDesc(order);
     }
 
 

@@ -29,4 +29,6 @@ public interface OrderService {
     Order findOrderById(int id);
 
     void updateOrder(Order order);
+
+    float addOrder(Order order, List<OrderItem> orderItems);
 }

@@ -4,11 +4,13 @@ import com.xiaoxin.demo.comparator.*;
 import com.xiaoxin.demo.pojo.*;
 import com.xiaoxin.demo.service.*;
 import com.xiaoxin.demo.util.Result;
+import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -34,6 +36,8 @@ public class ForeRESTController {
     ProductImageService productImageService;
     @Autowired
     PropertyValueService propertyValueService;
+    @Autowired
+    OrderService orderService;
 
     /**
      * 填充产品清除重复类别
@@ -198,6 +202,7 @@ public class ForeRESTController {
                 orderItem.setNumber(orderItem.getNumber() + num);
                 orderItemService.updateOrderItem(orderItem);
                 found = true;
+                orderItemId = orderItem.getId();
                 break;
             }
         }
@@ -207,8 +212,8 @@ public class ForeRESTController {
             orderItem.setProduct(product);
             orderItem.setUser(user);
             orderItemService.addOrderItem(orderItem);
+            orderItemId = orderItem.getId();
         }
-        orderItemId = orderItems.size();
         return orderItemId;
     }
 
@@ -317,5 +322,47 @@ public class ForeRESTController {
         }
         orderItemService.deleteOrderItem(oiid);
         return Result.success();
+    }
+
+    /**
+     * 新增订单
+     *
+     * @param order
+     * @param session
+     * @return
+     */
+    @PostMapping("forecreateOrder")
+    public Object createOrder(Order order, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (null == user) {
+            return Result.fail("用户未登陆");
+        }
+        //生成订单号
+        String orderCode = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + RandomUtils.nextInt(10000);
+        order.setOrderCode(orderCode);
+        order.setCreateDate(new Date());
+        order.setUser(user);
+        order.setStatus(orderService.waitPay);
+        List<OrderItem> orderItems = (List<OrderItem>) session.getAttribute("ois");
+        float total = orderService.addOrder(order, orderItems);
+        Map<String, Object> map = new HashMap<>();
+        map.put("oid", order.getId());
+        map.put("total", total);
+        return Result.success(map);
+    }
+
+    /**
+     * 扫码支付修改订单状态
+     *
+     * @param oid
+     * @return
+     */
+    @GetMapping("forepayed")
+    public Object payed(int oid) {
+        Order order = orderService.findOrderById(oid);
+        order.setPayDate(new Date());
+        order.setStatus(OrderService.waitDelivery);
+        orderService.updateOrder(order);
+        return order;
     }
 }

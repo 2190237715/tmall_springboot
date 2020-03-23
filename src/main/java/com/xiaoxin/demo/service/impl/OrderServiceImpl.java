@@ -3,6 +3,7 @@ package com.xiaoxin.demo.service.impl;
 import com.xiaoxin.demo.dao.OrderDao;
 import com.xiaoxin.demo.pojo.Order;
 import com.xiaoxin.demo.pojo.OrderItem;
+import com.xiaoxin.demo.service.OrderItemService;
 import com.xiaoxin.demo.service.OrderService;
 import com.xiaoxin.demo.util.Page4Navigator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,6 +28,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     OrderDao orderDao;
+    @Autowired
+    OrderItemService orderItemService;
 
     @Override
     public Page4Navigator<Order> orderList(int start, int size, int navigatePages) {
@@ -57,5 +62,22 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrder(Order order) {
         orderDao.save(order);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackForClassName = "Exception")
+    public float addOrder(Order order, List<OrderItem> orderItems) {
+        float total = 0;
+        orderDao.save(order);
+        //故意抛出异常代码用来模拟当增加订单后出现异常  需改为true
+        if (false) {
+            throw new RuntimeException();
+        }
+        for (OrderItem orderItem : orderItems) {
+            orderItem.setOrder(order);
+            orderItemService.updateOrderItem(orderItem);
+            total += orderItem.getProduct().getPromotePrice() * orderItem.getNumber();
+        }
+        return total;
     }
 }

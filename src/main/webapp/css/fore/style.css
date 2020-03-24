@@ -1667,6 +1667,7 @@ div.orderType a:hover {
 }
 
 div.orderTypeLastOne {
+    height:34px;
     overflow: hidden;
     float: none !important;
     border-bottom: 2px solid #E8E8E8;

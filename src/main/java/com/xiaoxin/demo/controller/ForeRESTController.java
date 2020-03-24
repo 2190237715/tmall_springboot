@@ -365,4 +365,21 @@ public class ForeRESTController {
         orderService.updateOrder(order);
         return order;
     }
+
+    /**
+     * 查询订单
+     *
+     * @param session
+     * @return
+     */
+    @GetMapping("forebought")
+    public Object bought(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (null == user) {
+            return Result.fail("用户未登陆");
+        }
+        List<Order> orders = orderService.listByUserWithoutDelete(user);
+        orderService.removeOrderFromOrderItem(orders);
+        return orders;
+    }
 }

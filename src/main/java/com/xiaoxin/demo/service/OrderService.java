@@ -2,6 +2,7 @@ package com.xiaoxin.demo.service;
 
 import com.xiaoxin.demo.pojo.Order;
 import com.xiaoxin.demo.pojo.OrderItem;
+import com.xiaoxin.demo.pojo.User;
 import com.xiaoxin.demo.util.Page4Navigator;
 
 import java.util.List;
@@ -31,4 +32,8 @@ public interface OrderService {
     void updateOrder(Order order);
 
     float addOrder(Order order, List<OrderItem> orderItems);
+
+    List<Order> listByUserWithoutDelete(User user);
+
+    List<Order> listByUserAndNotDeleted(User user);
 }

@@ -3,6 +3,7 @@ package com.xiaoxin.demo.service.impl;
 import com.xiaoxin.demo.dao.OrderDao;
 import com.xiaoxin.demo.pojo.Order;
 import com.xiaoxin.demo.pojo.OrderItem;
+import com.xiaoxin.demo.pojo.User;
 import com.xiaoxin.demo.service.OrderItemService;
 import com.xiaoxin.demo.service.OrderService;
 import com.xiaoxin.demo.util.Page4Navigator;
@@ -79,5 +80,17 @@ public class OrderServiceImpl implements OrderService {
             total += orderItem.getProduct().getPromotePrice() * orderItem.getNumber();
         }
         return total;
+    }
+
+    @Override
+    public List<Order> listByUserWithoutDelete(User user) {
+        List<Order> orders = listByUserAndNotDeleted(user);
+        orderItemService.fill(orders);
+        return orders;
+    }
+
+    @Override
+    public List<Order> listByUserAndNotDeleted(User user) {
+        return orderDao.findByUserAndStatusNotOrderByIdDesc(user, delete);
     }
 }

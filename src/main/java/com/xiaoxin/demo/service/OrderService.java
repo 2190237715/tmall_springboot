@@ -25,6 +25,11 @@ public interface OrderService {
 
     void removeOrderFromOrderItem(List<Order> orders);
 
+    /**
+     * 让订单滞空  防止循环读取
+     *
+     * @param order
+     */
     void removeOrderFromOrderItem(Order order);
 
     Order findOrderById(int id);
@@ -36,4 +41,11 @@ public interface OrderService {
     List<Order> listByUserWithoutDelete(User user);
 
     List<Order> listByUserAndNotDeleted(User user);
+
+    /**
+     * 计算价钱
+     *
+     * @param order
+     */
+    void cacl(Order order);
 }

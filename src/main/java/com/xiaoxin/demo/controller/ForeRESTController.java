@@ -5,6 +5,7 @@ import com.xiaoxin.demo.pojo.*;
 import com.xiaoxin.demo.service.*;
 import com.xiaoxin.demo.util.Result;
 import org.apache.commons.lang.math.RandomUtils;
+import org.hsqldb.persist.LobStoreInJar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
@@ -381,5 +382,49 @@ public class ForeRESTController {
         List<Order> orders = orderService.listByUserWithoutDelete(user);
         orderService.removeOrderFromOrderItem(orders);
         return orders;
+    }
+
+    /**
+     * 确认收货
+     *
+     * @param oid
+     * @return
+     */
+    @GetMapping("foreconfirmPay")
+    public Object confirmPay(int oid) {
+        Order order = orderService.findOrderById(oid);
+        orderItemService.fill(order);
+        orderService.cacl(order);
+        orderService.removeOrderFromOrderItem(order);
+        return order;
+    }
+
+    /**
+     * 确定收货成功,并修改状态
+     *
+     * @param oid
+     * @return
+     */
+    @GetMapping("foreorderConfirmed")
+    public Object orderConfirmed(int oid) {
+        Order order = orderService.findOrderById(oid);
+        order.setStatus(orderService.waitReview);
+        order.setConfirmDate(new Date());
+        orderService.updateOrder(order);
+        return Result.success();
+    }
+
+    /**
+     * 删除订单
+     *
+     * @param oid
+     * @return
+     */
+    @PutMapping("foredeleteOrder")
+    public Object deleteOrder(int oid) {
+        Order order = orderService.findOrderById(oid);
+        order.setStatus(OrderService.delete);
+        orderService.updateOrder(order);
+        return Result.success();
     }
 }

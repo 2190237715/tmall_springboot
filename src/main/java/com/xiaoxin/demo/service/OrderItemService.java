@@ -17,6 +17,11 @@ public interface OrderItemService {
 
     void fill(List<Order> orders);
 
+    /**
+     * 填充订单详情
+     *
+     * @param order
+     */
     void fill(Order order);
 
     List<OrderItem> findByOrder(Order order);

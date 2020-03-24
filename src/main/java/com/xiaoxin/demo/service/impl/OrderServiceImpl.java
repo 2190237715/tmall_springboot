@@ -93,4 +93,14 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> listByUserAndNotDeleted(User user) {
         return orderDao.findByUserAndStatusNotOrderByIdDesc(user, delete);
     }
+
+    @Override
+    public void cacl(Order order) {
+        List<OrderItem> orderItems = order.getOrderItems();
+        float total = 0;
+        for (OrderItem orderItem : orderItems) {
+            total += orderItem.getProduct().getPromotePrice() * orderItem.getNumber();
+        }
+        order.setTotal(total);
+    }
 }

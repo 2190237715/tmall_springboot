@@ -19,7 +19,7 @@ public interface ReviewService {
      *
      * @param review
      */
-    void add(Review review);
+    void addReview(Review review);
 
     /**
      * 展示评论列表

@@ -427,4 +427,51 @@ public class ForeRESTController {
         orderService.updateOrder(order);
         return Result.success();
     }
+
+    /**
+     * 产品评价
+     *
+     * @param oid
+     * @return
+     */
+    @GetMapping("forereview")
+    public Object review(int oid) {
+        Order order = orderService.findOrderById(oid);
+        orderItemService.fill(order);
+        orderService.removeOrderFromOrderItem(order);
+        Product product = order.getOrderItems().get(0).getProduct();
+        List<Review> reviews = reviewService.reviewList(product);
+        productService.setSaleAndReviewNumber(product);
+        Map<String, Object> map = new HashMap<>();
+        map.put("o", order);
+        map.put("p", product);
+        map.put("reviews", reviews);
+        return Result.success(map);
+    }
+
+    /**
+     * 提交评价
+     *
+     * @param session
+     * @param oid
+     * @param pid
+     * @param content
+     * @return
+     */
+    @PostMapping("foredoreview")
+    public Object doreview(HttpSession session, int oid, int pid, String content) {
+        Order order = orderService.findOrderById(oid);
+        order.setStatus(OrderService.finish);
+        orderService.updateOrder(order);
+        Product product = productService.findProductById(pid);
+        content = HtmlUtils.htmlEscape(content);
+        User user = (User) session.getAttribute("user");
+        Review review = new Review();
+        review.setContent(content);
+        review.setCreateDate(new Date());
+        review.setProduct(product);
+        review.setUser(user);
+        reviewService.addReview(review);
+        return Result.success();
+    }
 }

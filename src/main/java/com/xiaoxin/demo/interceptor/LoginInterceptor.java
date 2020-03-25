@@ -2,6 +2,8 @@ package com.xiaoxin.demo.interceptor;
 
 import com.xiaoxin.demo.pojo.User;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,8 +32,8 @@ public class LoginInterceptor implements HandlerInterceptor {
         uri = StringUtils.remove(uri, contextPath + "/");//截取关键跳转路径
         String page = uri;
         if (begingWith(page, requireAuthPages)) {
-            User user = (User) session.getAttribute("user");
-            if (null == user) {
+            Subject subject = SecurityUtils.getSubject();
+            if (!subject.isAuthenticated()) {
                 httpServletResponse.sendRedirect("login");
                 return false;
             }

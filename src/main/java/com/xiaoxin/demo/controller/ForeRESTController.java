@@ -5,7 +5,13 @@ import com.xiaoxin.demo.pojo.*;
 import com.xiaoxin.demo.service.*;
 import com.xiaoxin.demo.util.Result;
 import org.apache.commons.lang.math.RandomUtils;
-import org.hsqldb.persist.LobStoreInJar;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
@@ -65,13 +71,19 @@ public class ForeRESTController {
     public Result register(@RequestBody User user) {
         String name = user.getName();
         String password = user.getPassword();
+        name = HtmlUtils.htmlEscape(name);
+        user.setName(name);
         boolean exist = userService.isExist(name);
         if (exist) {
             String message = "用户名已被占用，请重新输入！";
             return Result.fail(message);
         }
-        user.setName(HtmlUtils.htmlEscape(name));
-        user.setPassword(password);
+        String salt = new SecureRandomNumberGenerator().nextBytes().toString();
+        int times = 2;//迭代次数
+        String algorithmName = "md5";//使用技术
+        String encodedPassword = new SimpleHash(algorithmName, password, salt, times).toString();
+        user.setSalt(salt);
+        user.setPassword(encodedPassword);
         userService.addUser(user);
         return Result.success();
     }
@@ -86,13 +98,17 @@ public class ForeRESTController {
     @PostMapping("/forelogin")
     public Result login(@RequestBody User userParam, HttpSession session) {
         String name = HtmlUtils.htmlEscape(userParam.getName());
-        User user = userService.login(name, userParam.getPassword());
-        if (null == user) {
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(name, userParam.getPassword());
+        try {
+            subject.login(token);
+            User user = userService.findUserByName(name);
+            session.setAttribute("user", user);
+            return Result.success();
+        } catch (AuthenticationException e) {
             String message = "账号密码错误，请重新输入！";
             return Result.fail(message);
         }
-        session.setAttribute("user", user);
-        return Result.success(user);
     }
 
     @GetMapping("/foreproduct/{pid}")
@@ -123,8 +139,8 @@ public class ForeRESTController {
      */
     @GetMapping("forecheckLogin")
     public Object checkLogin(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (null != user) {
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
             return Result.success();
         }
         return Result.fail("未登陆");

@@ -6,6 +6,9 @@ import com.xiaoxin.demo.pojo.Review;
 import com.xiaoxin.demo.service.ProductService;
 import com.xiaoxin.demo.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +20,7 @@ import java.util.List;
  * @createDate 2020/03/13 15:31
  */
 @Service
+@CacheConfig(cacheNames = "reviews")
 public class ReviewServiceImpl implements ReviewService {
     @Autowired
     ReviewDAO reviewDAO;
@@ -24,17 +28,20 @@ public class ReviewServiceImpl implements ReviewService {
     ProductService productService;
 
     @Override
+    @CacheEvict(allEntries = true)
     public void addReview(Review review) {
         reviewDAO.save(review);
     }
 
     @Override
+    @Cacheable(key = "'reviews-pid-'+ #p0.id")
     public List<Review> reviewList(Product product) {
         List<Review> reviews = reviewDAO.findByProductOrderByIdDesc(product);
         return reviews;
     }
 
     @Override
+    @Cacheable(key = "'reviews-count-pid-'+ #p0.id")
     public int getCount(Product product) {
         return reviewDAO.countByProduct(product);
     }

@@ -8,6 +8,9 @@ import com.xiaoxin.demo.service.OrderItemService;
 import com.xiaoxin.demo.service.OrderService;
 import com.xiaoxin.demo.util.Page4Navigator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +28,7 @@ import java.util.List;
  * @createDate 2019/12/4 15:09
  */
 @Service
+@CacheConfig(cacheNames="orders")
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
@@ -33,6 +37,7 @@ public class OrderServiceImpl implements OrderService {
     OrderItemService orderItemService;
 
     @Override
+    @Cacheable(key="'orders-page-'+#p0+ '-' + #p1")
     public Page4Navigator<Order> orderList(int start, int size, int navigatePages) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(start, size, sort);
@@ -56,16 +61,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Cacheable(key="'orders-one-'+ #p0")
     public Order findOrderById(int id) {
         return orderDao.findById(id).get();
     }
 
     @Override
+    @CacheEvict(allEntries=true)
     public void updateOrder(Order order) {
         orderDao.save(order);
     }
 
     @Override
+    @CacheEvict(allEntries=true)
     @Transactional(propagation = Propagation.REQUIRED, rollbackForClassName = "Exception")
     public float addOrder(Order order, List<OrderItem> orderItems) {
         float total = 0;
@@ -90,6 +98,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Cacheable(key="'orders-uid-'+ #p0.id")
     public List<Order> listByUserAndNotDeleted(User user) {
         return orderDao.findByUserAndStatusNotOrderByIdDesc(user, delete);
     }

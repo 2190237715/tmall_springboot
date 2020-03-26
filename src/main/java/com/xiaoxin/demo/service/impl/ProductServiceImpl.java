@@ -1,7 +1,6 @@
 package com.xiaoxin.demo.service.impl;
 
 import com.xiaoxin.demo.dao.CategoryDao;
-import com.xiaoxin.demo.dao.OrderItemDao;
 import com.xiaoxin.demo.dao.ProductDao;
 import com.xiaoxin.demo.pojo.Category;
 import com.xiaoxin.demo.pojo.Product;
@@ -10,7 +9,11 @@ import com.xiaoxin.demo.service.ProductImageService;
 import com.xiaoxin.demo.service.ProductService;
 import com.xiaoxin.demo.service.ReviewService;
 import com.xiaoxin.demo.util.Page4Navigator;
+import com.xiaoxin.demo.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +31,7 @@ import java.util.List;
  * @createDate 2019/11/19 15:07
  */
 @Service
+@CacheConfig(cacheNames = "products")
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
@@ -42,26 +46,31 @@ public class ProductServiceImpl implements ProductService {
     ProductImageService productImageService;
 
     @Override
+    @CacheEvict(allEntries = true)
     public void addProduct(Product product) {
         productDao.save(product);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void deleteProductById(int id) {
         productDao.deleteById(id);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void editProduct(Product product) {
         productDao.save(product);
     }
 
     @Override
+    @Cacheable(key = "'products-one-'+#p0")
     public Product findProductById(int id) {
         return productDao.findById(id).get();
     }
 
     @Override
+    @Cacheable(key = "'products-cid-'+#p0+'-page-'+#p1+'-'+#p2")
     public Page4Navigator<Product> ProductList(int cid, int start, int size, int navigatePages) {
         Category category = categoryDao.findById(cid).get();
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
@@ -71,13 +80,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable(key = "'products-cid-'+#p0.id")
     public List<Product> listByCategory(Category category) {
         return productDao.findByCategoryOrderById(category);
     }
 
     @Override
     public void fill(Category category) {
-        List<Product> products = listByCategory(category);
+        ProductServiceImpl productService = SpringContextUtil.getBean(ProductServiceImpl.class);
+        List<Product> products = productService.listByCategory(category);
         productImageService.setFirstProductImages(products);
         category.setProducts(products);
     }
@@ -116,8 +127,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void setSaleAndReviewNumber(List<Product> products) {
-        for (Product product : products
-        ) {
+        for (Product product : products) {
             setSaleAndReviewNumber(product);
         }
     }

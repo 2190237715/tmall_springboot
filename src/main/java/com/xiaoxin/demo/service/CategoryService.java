@@ -61,7 +61,7 @@ public interface CategoryService {
     Page4Navigator<Category> categoryList(int start, int size, int navigatePages);
 
     /**
-     * 删除产品上的分类
+     * 删除产品上的分类   防止套娃
      *
      * @param category
      */

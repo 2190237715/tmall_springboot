@@ -15,8 +15,6 @@ import java.util.List;
  */
 public interface OrderItemService {
 
-    void fill(List<Order> orders);
-
     /**
      * 填充订单详情
      *
@@ -24,28 +22,21 @@ public interface OrderItemService {
      */
     void fill(Order order);
 
-    List<OrderItem> findByOrder(Order order);
+    void fill(List<Order> orders);
 
     int getSaleCount(Product product);
 
-    /**
-     * 暂时没用到  排序的第二种方案
-     *
-     * @param order
-     * @return
-     */
-    List<OrderItem> findByOrderOrderByIdDesc(Order order);
-
-    List<OrderItem> findByProduct(Product product);
-
-    List<OrderItem> listByUser(User user);
+    void deleteOrderItem(int oiid);
 
     void updateOrderItem(OrderItem orderItem);
 
     void addOrderItem(OrderItem orderItem);
 
+    List<OrderItem> listByProduct(Product product);
+
+    List<OrderItem> listByUser(User user);
+
+    List<OrderItem> listByOrder(Order order);
+
     OrderItem findOrderItemById(int oiid);
-
-    void deleteOrderItem(int oiid);
-
 }

@@ -7,6 +7,9 @@ import com.xiaoxin.demo.pojo.Property;
 import com.xiaoxin.demo.pojo.PropertyValue;
 import com.xiaoxin.demo.service.PropertyValueService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +21,7 @@ import java.util.List;
  * @createDate 2019/11/20 15:50
  */
 @Service
+@CacheConfig(cacheNames = "propertyValues")
 public class PropertyValueServiceImpl implements PropertyValueService {
     @Autowired
     PropertyvalueDao propertyvalueDao;
@@ -39,16 +43,19 @@ public class PropertyValueServiceImpl implements PropertyValueService {
     }
 
     @Override
+    @Cacheable(key = "'propertyValues-one-pid-'+#p0.id+ '-ptid-' + #p1.id")
     public PropertyValue getByProductAndProperty(Product product, Property property) {
         return propertyvalueDao.getByProductAndProperty(product, property);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void updatePropertyValue(PropertyValue propertyValue) {
         propertyvalueDao.save(propertyValue);
     }
 
     @Override
+    @Cacheable(key = "'propertyValues-pid-'+ #p0.id")
     public List<PropertyValue> propertyValueList(Product product) {
         return propertyvalueDao.findByProductOrderByIdDesc(product);
     }

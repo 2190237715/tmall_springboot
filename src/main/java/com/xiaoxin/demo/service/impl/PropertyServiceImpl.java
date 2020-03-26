@@ -7,6 +7,9 @@ import com.xiaoxin.demo.pojo.Property;
 import com.xiaoxin.demo.service.PropertyService;
 import com.xiaoxin.demo.util.Page4Navigator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +25,7 @@ import java.util.List;
  * @createDate 2019/11/15 09:25
  */
 @Service
+@CacheConfig(cacheNames = "properties")
 public class PropertyServiceImpl implements PropertyService {
 
     @Autowired
@@ -30,26 +34,31 @@ public class PropertyServiceImpl implements PropertyService {
     CategoryDao categoryDao;
 
     @Override
+    @CacheEvict(allEntries = true)
     public void addProperty(Property property) {
         propertyDao.save(property);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void deletePropertyById(int id) {
         propertyDao.deleteById(id);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void editProperty(Property property) {
         propertyDao.save(property);
     }
 
     @Override
+    @Cacheable(key = "'properties-one-'+ #p0")
     public Property findPropertyById(int id) {
         return propertyDao.findById(id).get();
     }
 
     @Override
+    @Cacheable(key = "'properties-cid-'+#p0+'-page-'+#p1 + '-' + #p2 ")
     public Page4Navigator<Property> propertyList(int cid, int start, int size, int navigatePages) {
         Category category = categoryDao.findById(cid).get();
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
@@ -59,6 +68,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
+    @Cacheable(key = "'properties-cid-'+ #p0.id")
     public List<Property> findByCategory(Category category) {
         return propertyDao.findByCategory(category);
     }

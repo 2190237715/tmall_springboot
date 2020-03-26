@@ -5,7 +5,6 @@ import com.xiaoxin.demo.pojo.*;
 import com.xiaoxin.demo.service.*;
 import com.xiaoxin.demo.util.Result;
 import org.apache.commons.lang.math.RandomUtils;
-import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;

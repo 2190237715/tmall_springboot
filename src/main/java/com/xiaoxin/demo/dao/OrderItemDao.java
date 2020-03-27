@@ -16,13 +16,6 @@ import java.util.List;
  */
 public interface OrderItemDao extends JpaRepository<OrderItem, Integer> {
 
-    /**
-     * 根据订单查询订单详情并降序排序
-     *
-     * @param order
-     * @return
-     */
-    List<OrderItem> findByOrderOrderByIdDesc(Order order);
 
     /**
      * 增加根据产品获取OrderItem
@@ -40,5 +33,12 @@ public interface OrderItemDao extends JpaRepository<OrderItem, Integer> {
      */
     List<OrderItem> findByUserAndOrderIsNull(User user);
 
+    /**
+     * 根据订单查询订单详情并降序排序
+     *
+     * @param order
+     * @return
+     */
+    List<OrderItem> findByOrderOrderByIdDesc(Order order);
 
 }

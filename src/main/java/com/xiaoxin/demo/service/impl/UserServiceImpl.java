@@ -4,7 +4,6 @@ import com.xiaoxin.demo.dao.UserDao;
 import com.xiaoxin.demo.pojo.User;
 import com.xiaoxin.demo.service.UserService;
 import com.xiaoxin.demo.util.Page4Navigator;
-import org.hsqldb.lib.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;

@@ -17,14 +17,6 @@ import java.util.List;
  */
 @Repository
 public interface ProductDao extends JpaRepository<Product, Integer> {
-    /**
-     * 基于Category进行产品查询
-     *
-     * @param category
-     * @param pageable
-     * @return
-     */
-    Page<Product> findByCategory(Category category, Pageable pageable);
 
     /**
      * 基于Category进行产品ID排序查询
@@ -42,4 +34,13 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
      * @return
      */
     List<Product> findByNameLike(String keyword, Pageable pageable);
+
+    /**
+     * 基于Category进行产品查询
+     *
+     * @param category
+     * @param pageable
+     * @return
+     */
+    Page<Product> findByCategory(Category category, Pageable pageable);
 }

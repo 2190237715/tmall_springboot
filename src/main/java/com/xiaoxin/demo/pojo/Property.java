@@ -1,7 +1,6 @@
 package com.xiaoxin.demo.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 

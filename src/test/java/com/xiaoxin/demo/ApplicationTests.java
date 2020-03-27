@@ -1,7 +1,10 @@
 package com.xiaoxin.demo;
 
+import com.xiaoxin.demo.pojo.Category;
+import com.xiaoxin.demo.service.CategoryService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -27,17 +30,16 @@ public class ApplicationTests {
         System.out.println(sum);
     }
 
+    @Autowired
+    CategoryService categoryService;
+
     @Test
     public void strTest() {
-        String Str = new String("www.runoob.com");
-
-        System.out.print("返回值 :");
-        System.out.println(Str.startsWith("www"));
-
-        System.out.print("返回值 :");
-        System.out.println(Str.startsWith("runoob"));
-
-        System.out.print("返回值 :");
-        System.out.println(Str.startsWith("runoob", 4));
+        categoryService.findCategoryById(82);
+        List<Category> categories = categoryService.list();
+        for (Category category : categories) {
+            System.out.println(category.getName());
+        }
+//        categoryService.categoryList(1, 2, 4);
     }
 }

@@ -13,13 +13,6 @@ import java.util.List;
  * @createDate 2020/03/13 15:31
  */
 public interface ReviewDAO extends JpaRepository<Review, Integer> {
-    /**
-     * 返回某产品对应的评价集合
-     *
-     * @param product
-     * @return
-     */
-    List<Review> findByProductOrderByIdDesc(Product product);
 
     /**
      * 返回某产品对应的评价数量
@@ -28,5 +21,13 @@ public interface ReviewDAO extends JpaRepository<Review, Integer> {
      * @return
      */
     int countByProduct(Product product);
+
+    /**
+     * 返回某产品对应的评价集合
+     *
+     * @param product
+     * @return
+     */
+    List<Review> findByProductOrderByIdDesc(Product product);
 
 }

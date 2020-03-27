@@ -17,14 +17,7 @@ import java.util.List;
  */
 @Repository
 public interface PropertyDao extends JpaRepository<Property, Integer> {
-    /**
-     * 基于Category进行属性分页查询
-     *
-     * @param category
-     * @param pageable
-     * @return
-     */
-    Page<Property> findByCategory(Category category, Pageable pageable);
+
 
     /**
      * 根据Category查询属性列表
@@ -33,4 +26,13 @@ public interface PropertyDao extends JpaRepository<Property, Integer> {
      * @return
      */
     List<Property> findByCategory(Category category);
+
+    /**
+     * 基于Category进行属性分页查询
+     *
+     * @param category
+     * @param pageable
+     * @return
+     */
+    Page<Property> findByCategory(Category category, Pageable pageable);
 }

@@ -63,7 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    @Cacheable(key = "'categories-page-'+#p0+'-'+#p1")
+//    @Cacheable(key = "'categories-page-'+#p0+'-'+#p1")
     public Page4Navigator<Category> categoryList(int start, int size, int navigatePages) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(start, size, sort);

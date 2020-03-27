@@ -1,10 +1,8 @@
 package com.xiaoxin.demo.service;
 
-import com.xiaoxin.demo.dao.PropertyvalueDao;
 import com.xiaoxin.demo.pojo.Product;
 import com.xiaoxin.demo.pojo.Property;
 import com.xiaoxin.demo.pojo.PropertyValue;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 

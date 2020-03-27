@@ -1,6 +1,5 @@
 package com.xiaoxin.demo.interceptor;
 
-import com.xiaoxin.demo.pojo.User;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;

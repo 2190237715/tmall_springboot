@@ -21,13 +21,6 @@ public interface ReviewService {
      */
     void addReview(Review review);
 
-    /**
-     * 展示评论列表
-     *
-     * @param product
-     * @return
-     */
-    List<Review> reviewList(Product product);
 
     /**
      * 通过产品获取评价
@@ -36,4 +29,13 @@ public interface ReviewService {
      * @return
      */
     int getCount(Product product);
+
+    /**
+     * 展示评论列表
+     *
+     * @param product
+     * @return
+     */
+    List<Review> reviewList(Product product);
+
 }

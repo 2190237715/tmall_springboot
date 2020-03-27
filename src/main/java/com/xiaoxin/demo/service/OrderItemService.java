@@ -24,19 +24,20 @@ public interface OrderItemService {
 
     void fill(List<Order> orders);
 
-    int getSaleCount(Product product);
+    void addOrderItem(OrderItem orderItem);
 
     void deleteOrderItem(int oiid);
 
     void updateOrderItem(OrderItem orderItem);
 
-    void addOrderItem(OrderItem orderItem);
+    int getSaleCount(Product product);
 
-    List<OrderItem> listByProduct(Product product);
+    OrderItem findOrderItemById(int oiid);
 
     List<OrderItem> listByUser(User user);
 
     List<OrderItem> listByOrder(Order order);
 
-    OrderItem findOrderItemById(int oiid);
+    List<OrderItem> listByProduct(Product product);
+
 }

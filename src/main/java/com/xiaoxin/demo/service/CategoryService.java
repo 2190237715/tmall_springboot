@@ -2,6 +2,9 @@ package com.xiaoxin.demo.service;
 
 import com.xiaoxin.demo.pojo.Category;
 import com.xiaoxin.demo.util.Page4Navigator;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -11,6 +14,7 @@ import java.util.List;
  * @ClassName categoryService
  * @createDate 2019/11/5 17:11
  */
+@CacheConfig(cacheNames = "categories")
 public interface CategoryService {
 
     /**
@@ -18,6 +22,7 @@ public interface CategoryService {
      *
      * @param category--类别实体
      */
+    @CacheEvict(allEntries = true)
     void addCategory(Category category);
 
     /**
@@ -25,6 +30,7 @@ public interface CategoryService {
      *
      * @param id--类别ID
      */
+    @CacheEvict(allEntries = true)
     void deleteCategoryById(int id);
 
 
@@ -33,6 +39,7 @@ public interface CategoryService {
      *
      * @param category--类别实体
      */
+    @CacheEvict(allEntries = true)
     void editCategory(Category category);
 
     /**
@@ -48,6 +55,7 @@ public interface CategoryService {
      *
      * @return
      */
+    @Cacheable(key = "'categories-all'")
     List<Category> list();
 
     /**
@@ -65,6 +73,7 @@ public interface CategoryService {
      *
      * @param category
      */
+    @Cacheable(key = "'categories-page-'+#p0+'-'+#p1")
     void removeCategoryFromProduct(Category category);
 
     /**

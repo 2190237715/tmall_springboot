@@ -2,6 +2,9 @@ package com.xiaoxin.demo.service;
 
 import com.xiaoxin.demo.pojo.User;
 import com.xiaoxin.demo.util.Page4Navigator;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * @author fuqiangxin
@@ -9,6 +12,7 @@ import com.xiaoxin.demo.util.Page4Navigator;
  * @ClassName UserService
  * @createDate 2019/11/22 15:23
  */
+@CacheConfig(cacheNames = "users")
 public interface UserService {
 
     /**
@@ -17,6 +21,7 @@ public interface UserService {
      * @param user
      * @return
      */
+    @CacheEvict(allEntries = true)
     User addUser(User user);
 
     /**
@@ -25,6 +30,7 @@ public interface UserService {
      * @param name
      * @return
      */
+    @Cacheable(key = "'users-one-name-'+ #p0")
     User findUserByName(String name);
 
     /**
@@ -42,6 +48,7 @@ public interface UserService {
      * @param password
      * @return
      */
+    @Cacheable(key = "'users-one-name-'+ #p0 +'-password-'+ #p1")
     User login(String name, String password);
 
     /**
@@ -52,5 +59,6 @@ public interface UserService {
      * @param navigatePages
      * @return
      */
+    @Cacheable(key = "'users-page-'+#p0+ '-' + #p1")
     Page4Navigator<User> UserList(int start, int size, int navigatePages);
 }

@@ -3,6 +3,9 @@ package com.xiaoxin.demo.service;
 import com.xiaoxin.demo.pojo.Product;
 import com.xiaoxin.demo.pojo.Property;
 import com.xiaoxin.demo.pojo.PropertyValue;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -12,6 +15,7 @@ import java.util.List;
  * @ClassName PropertyValueService
  * @createDate 2019/11/20 09:16
  */
+@CacheConfig(cacheNames = "propertyValues")
 public interface PropertyValueService {
 
     /**
@@ -28,6 +32,7 @@ public interface PropertyValueService {
      * @param property
      * @return
      */
+    @Cacheable(key = "'propertyValues-one-pid-'+#p0.id+ '-ptid-' + #p1.id")
     PropertyValue getByProductAndProperty(Product product, Property property);
 
     /**
@@ -35,6 +40,7 @@ public interface PropertyValueService {
      *
      * @param propertyValue
      */
+    @CacheEvict(allEntries = true)
     void updatePropertyValue(PropertyValue propertyValue);
 
     /**
@@ -43,6 +49,7 @@ public interface PropertyValueService {
      * @param product
      * @return
      */
+    @Cacheable(key = "'propertyValues-pid-'+ #p0.id")
     List<PropertyValue> propertyValueList(Product product);
 
 }

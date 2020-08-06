@@ -31,7 +31,6 @@ import java.util.List;
  * @createDate 2019/11/19 15:07
  */
 @Service
-@CacheConfig(cacheNames = "products")
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
@@ -46,31 +45,26 @@ public class ProductServiceImpl implements ProductService {
     ProductImageService productImageService;
 
     @Override
-    @CacheEvict(allEntries = true)
     public void addProduct(Product product) {
         productDao.save(product);
     }
 
     @Override
-    @CacheEvict(allEntries = true)
     public void deleteProductById(int id) {
         productDao.deleteById(id);
     }
 
     @Override
-    @CacheEvict(allEntries = true)
     public void editProduct(Product product) {
         productDao.save(product);
     }
 
     @Override
-    @Cacheable(key = "'products-one-'+#p0")
     public Product findProductById(int id) {
         return productDao.findById(id).get();
     }
 
     @Override
-    @Cacheable(key = "'products-cid-'+#p0+'-page-'+#p1+'-'+#p2")
     public Page4Navigator<Product> ProductList(int cid, int start, int size, int navigatePages) {
         Category category = categoryDao.findById(cid).get();
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
@@ -80,7 +74,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Cacheable(key = "'products-cid-'+#p0.id")
     public List<Product> listByCategory(Category category) {
         return productDao.findByCategoryOrderById(category);
     }

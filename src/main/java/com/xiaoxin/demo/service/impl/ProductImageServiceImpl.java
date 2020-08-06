@@ -20,7 +20,6 @@ import java.util.List;
  * @createDate 2019/11/19 17:01
  */
 @Service
-@CacheConfig(cacheNames="productImages")
 public class ProductImageServiceImpl implements ProductImageService {
     @Autowired
     ProductImageDao productImageDao;
@@ -29,31 +28,26 @@ public class ProductImageServiceImpl implements ProductImageService {
     public static final String type_detail = "detail";
 
     @Override
-    @CacheEvict(allEntries=true)
     public void addProductImage(ProductImage productImage) {
         productImageDao.save(productImage);
     }
 
     @Override
-    @CacheEvict(allEntries=true)
     public void deleteProductImageById(int id) {
         productImageDao.deleteById(id);
     }
 
     @Override
-    @Cacheable(key="'productImages-one-'+ #p0")
     public ProductImage findProductImageById(int id) {
         return productImageDao.findById(id).get();
     }
 
     @Override
-    @Cacheable(key="'productImages-single-pid-'+ #p0.id")
     public List<ProductImage> listSingleProductImages(Product product) {
         return productImageDao.findByProductAndTypeOrderByIdDesc(product, type_single);
     }
 
     @Override
-    @Cacheable(key="'productImages-detail-pid-'+ #p0.id")
     public List<ProductImage> listDetailProductImages(Product product) {
         return productImageDao.findByProductAndTypeOrderByIdDesc(product, type_detail);
     }

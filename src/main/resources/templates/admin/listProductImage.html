@@ -1,86 +1,86 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:include="include/admin/adminHeader::html('产品管理')" ></head>
+<head th:include="include/admin/adminHeader::html('产品管理')"></head>
 <body>
-<div th:replace="include/admin/adminNavigator::html" ></div>
+<div th:replace="include/admin/adminNavigator::html"></div>
 <script>
-    $(function(){
+    $(function () {
         var pid = getUrlParms("pid");
         var data4Vue = {
-            uri:'productImages',
+            uri: 'productImages',
             singleProductImages: [],
             detailProductImages: [],
             product: '',
-            category:'',
-            singleFile:'',
-            detailFile:''
+            category: '',
+            singleFile: '',
+            detailFile: ''
         };
 
         //ViewModel
         var vue = new Vue({
             el: '#workingArea',
             data: data4Vue,
-            mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+            mounted: function () { //mounted　表示这个 Vue 对象加载成功了
                 this.listSingles();
                 this.listDetails();
                 this.getProduct(pid);
             },
             methods: {
-                getProduct:function(pid){
-                    var url = "products/"+pid;
-                    axios.get(url).then(function(response) {
+                getProduct: function (pid) {
+                    var url = "products/" + pid;
+                    axios.get(url).then(function (response) {
                         vue.product = response.data;
                         vue.category = vue.product.category;
                     })
                 },
-                listSingles:function(start){
-                    var url =  "products/"+pid+"/"+this.uri+"?type=single";
-                    axios.get(url).then(function(response) {
+                listSingles: function (start) {
+                    var url = "products/" + pid + "/" + this.uri + "?type=single";
+                    axios.get(url).then(function (response) {
                         vue.singleProductImages = response.data;
                     });
                 },
-                listDetails:function(start){
-                    var url =  "products/"+pid+"/"+this.uri+"?type=detail";
-                    axios.get(url).then(function(response) {
+                listDetails: function (start) {
+                    var url = "products/" + pid + "/" + this.uri + "?type=detail";
+                    axios.get(url).then(function (response) {
                         vue.detailProductImages = response.data;
                     });
                 },
                 addSingle: function () {
-                    if(!checkEmpty(this.singleFile, "单个产品图片"))
+                    if (!checkEmpty(this.singleFile, "单个产品图片"))
                         return;
 
-                    var url = this.uri+"?type=single&pid="+pid;
+                    var url = this.uri + "?type=single&pid=" + pid;
 
                     var formData = new FormData();
                     formData.append("image", this.singleFile);
 
-                    axios.post(url,formData).then(function(response){
+                    axios.post(url, formData).then(function (response) {
                         vue.listSingles();
                         $("#singlePic").val('');
                         vue.singleFile = null;
                     });
                 },
                 addDetail: function () {
-                    if(!checkEmpty(this.detailFile, "详情产品图片"))
+                    if (!checkEmpty(this.detailFile, "详情产品图片"))
                         return;
 
-                    var url = this.uri+"?type=detail&pid="+pid;
+                    var url = this.uri + "?type=detail&pid=" + pid;
 
                     var formData = new FormData();
                     formData.append("image", this.detailFile);
 
-                    axios.post(url,formData).then(function(response){
+                    axios.post(url, formData).then(function (response) {
                         vue.listDetails();
                         $("#detailPic").val('');
                         vue.detailFile = null;
                     });
                 },
                 deleteBean: function (id) {
-                    if(!checkDeleteLink())
+                    if (!checkDeleteLink())
                         return;
-                    var url = this.uri+"/"+id;
-                    axios.delete(url).then(function(response){
+                    var url = this.uri + "/" + id;
+                    axios.delete(url).then(function (response) {
                         vue.listSingles();
                         vue.listDetails();
                     });
@@ -98,7 +98,7 @@
 
 </script>
 
-<div id="workingArea" >
+<div id="workingArea">
     <ol class="breadcrumb">
         <li><a href="admin_category_list">所有分类</a></li>
         <li><a :href="'admin_product_list?cid='+category.id">{{category.name}}</a></li>
@@ -119,7 +119,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input id="singlePic" type="file" @change="getSingleFile($event)" name="image" />
+                                        <input id="singlePic" type="file" @change="getSingleFile($event)" name="image"/>
                                     </td>
                                 </tr>
                                 <tr class="submitTR">
@@ -142,9 +142,11 @@
                         <tr v-for="pi in singleProductImages">
                             <td>{{pi.id}}</td>
                             <td>
-                                <a title="点击查看原图" :href="'img/productSingle/'+pi.id+'.jpg'"><img height="50px" :src="'img/productSingle/'+pi.id+'.jpg'"></a>
+                                <a title="点击查看原图" :href="'img/productSingle/'+pi.id+'.jpg'"><img height="50px"
+                                                                                                 :src="'img/productSingle/'+pi.id+'.jpg'"></a>
                             </td>
-                            <td><a href="#nowhere" @click="deleteBean(pi.id)"><span class="glyphicon glyphicon-trash"></span></a></td>
+                            <td><a href="#nowhere" @click="deleteBean(pi.id)"><span
+                                    class="glyphicon glyphicon-trash"></span></a></td>
 
                         </tr>
                         </tbody>
@@ -160,11 +162,11 @@
                         <div class="panel-body">
                             <table class="addTable">
                                 <tr>
-                                    <td>请选择本地图片 宽度790  为佳</td>
+                                    <td>请选择本地图片 宽度790 为佳</td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input id="detailPic" type="file" @change="getDetailFile($event)" name="image" />
+                                        <input id="detailPic" type="file" @change="getDetailFile($event)" name="image"/>
                                     </td>
                                 </tr>
                                 <tr class="submitTR">
@@ -188,9 +190,11 @@
                         <tr v-for="pi in detailProductImages">
                             <td>{{pi.id}}</td>
                             <td>
-                                <a title="点击查看原图" :href="'img/productDetail/'+pi.id+'.jpg'"><img height="50px" :src="'img/productDetail/'+pi.id+'.jpg'"></a>
+                                <a title="点击查看原图" :href="'img/productDetail/'+pi.id+'.jpg'"><img height="50px"
+                                                                                                 :src="'img/productDetail/'+pi.id+'.jpg'"></a>
                             </td>
-                            <td><a href="#nowhere" @click="deleteBean(pi.id)"><span class="glyphicon glyphicon-trash"></span></a></td>
+                            <td><a href="#nowhere" @click="deleteBean(pi.id)"><span
+                                    class="glyphicon glyphicon-trash"></span></a></td>
 
                         </tr>
                         </tbody>
@@ -202,6 +206,6 @@
 
 </div>
 
-<div th:replace="include/admin/adminFooter::html" ></div>
+<div th:replace="include/admin/adminFooter::html"></div>
 </body>
 </html>

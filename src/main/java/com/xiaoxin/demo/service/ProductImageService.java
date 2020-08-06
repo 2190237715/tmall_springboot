@@ -3,6 +3,9 @@ package com.xiaoxin.demo.service;
 import com.xiaoxin.demo.pojo.OrderItem;
 import com.xiaoxin.demo.pojo.Product;
 import com.xiaoxin.demo.pojo.ProductImage;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -12,6 +15,7 @@ import java.util.List;
  * @ClassName ProductImageService
  * @createDate 2019/11/19 16:38
  */
+@CacheConfig(cacheNames = "productImages")
 public interface ProductImageService {
 
     String type_single = "single";
@@ -23,6 +27,7 @@ public interface ProductImageService {
      *
      * @param productImage
      */
+    @CacheEvict(allEntries = true)
     void addProductImage(ProductImage productImage);
 
     /**
@@ -30,6 +35,7 @@ public interface ProductImageService {
      *
      * @param id
      */
+    @CacheEvict(allEntries = true)
     void deleteProductImageById(int id);
 
     /**
@@ -38,6 +44,7 @@ public interface ProductImageService {
      * @param id
      * @return
      */
+    @Cacheable(key = "'productImages-one-'+ #p0")
     ProductImage findProductImageById(int id);
 
     /**
@@ -46,6 +53,7 @@ public interface ProductImageService {
      * @param product
      * @return
      */
+    @Cacheable(key = "'productImages-single-pid-'+ #p0.id")
     List<ProductImage> listSingleProductImages(Product product);
 
     /**
@@ -54,6 +62,7 @@ public interface ProductImageService {
      * @param product
      * @return
      */
+    @Cacheable(key = "'productImages-detail-pid-'+ #p0.id")
     List<ProductImage> listDetailProductImages(Product product);
 
     /**

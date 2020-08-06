@@ -4,6 +4,9 @@ import com.xiaoxin.demo.pojo.Order;
 import com.xiaoxin.demo.pojo.OrderItem;
 import com.xiaoxin.demo.pojo.User;
 import com.xiaoxin.demo.util.Page4Navigator;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -13,6 +16,7 @@ import java.util.List;
  * @ClassName OrderService
  * @createDate 2019/11/25 18:27
  */
+@CacheConfig(cacheNames = "orders")
 public interface OrderService {
     String waitPay = "waitPay";
     String waitDelivery = "waitDelivery";
@@ -23,6 +27,7 @@ public interface OrderService {
 
     Page4Navigator<Order> orderList(int start, int size, int navigatePages);
 
+    @Cacheable(key = "'orders-page-'+#p0+ '-' + #p1")
     void removeOrderFromOrderItem(List<Order> orders);
 
     /**
@@ -32,14 +37,18 @@ public interface OrderService {
      */
     void removeOrderFromOrderItem(Order order);
 
+    @Cacheable(key = "'orders-one-'+ #p0")
     Order findOrderById(int id);
 
+    @CacheEvict(allEntries = true)
     void updateOrder(Order order);
 
+    @CacheEvict(allEntries = true)
     float addOrder(Order order, List<OrderItem> orderItems);
 
     List<Order> listByUserWithoutDelete(User user);
 
+    @Cacheable(key = "'orders-uid-'+ #p0.id")
     List<Order> listByUserAndNotDeleted(User user);
 
     /**

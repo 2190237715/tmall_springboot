@@ -3,6 +3,9 @@ package com.xiaoxin.demo.service;
 import com.xiaoxin.demo.pojo.Category;
 import com.xiaoxin.demo.pojo.Product;
 import com.xiaoxin.demo.util.Page4Navigator;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -13,12 +16,14 @@ import java.util.List;
  * @ClassName ProductService
  * @createDate 2019/11/19 15:00
  */
+@CacheConfig(cacheNames = "products")
 public interface ProductService {
     /**
      * 新增属性
      *
      * @param product
      */
+    @CacheEvict(allEntries = true)
     void addProduct(Product product);
 
     /**
@@ -26,6 +31,7 @@ public interface ProductService {
      *
      * @param id
      */
+    @CacheEvict(allEntries = true)
     void deleteProductById(int id);
 
     /**
@@ -33,6 +39,7 @@ public interface ProductService {
      *
      * @param product
      */
+    @CacheEvict(allEntries = true)
     void editProduct(Product product);
 
     /**
@@ -41,6 +48,7 @@ public interface ProductService {
      * @param id
      * @return
      */
+    @Cacheable(key = "'products-one-'+#p0")
     Product findProductById(int id);
 
     /**
@@ -52,6 +60,7 @@ public interface ProductService {
      * @param navigatePages
      * @return
      */
+    @Cacheable(key = "'products-cid-'+#p0+'-page-'+#p1+'-'+#p2")
     Page4Navigator<Product> ProductList(int cid, int start, int size, int navigatePages);
 
     /**
@@ -60,6 +69,7 @@ public interface ProductService {
      * @param category
      * @return
      */
+    @Cacheable(key = "'products-cid-'+#p0.id")
     List<Product> listByCategory(Category category);
 
     /**

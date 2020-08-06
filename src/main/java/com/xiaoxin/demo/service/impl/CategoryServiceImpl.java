@@ -24,27 +24,22 @@ import java.util.List;
  * @createDate 2019/11/5 17:22
  */
 @Service
-@CacheConfig(cacheNames = "categories")
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     CategoryDao categoryDao;
 
-
     @Override
-    @CacheEvict(allEntries = true)
     public void addCategory(Category category) {
         categoryDao.save(category);
     }
 
     @Override
-    @CacheEvict(allEntries = true)
     public void deleteCategoryById(int id) {
         categoryDao.deleteById(id);
     }
 
     @Override
-    @CacheEvict(allEntries = true)
     public void editCategory(Category category) {
         categoryDao.save(category);
     }
@@ -56,14 +51,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    @Cacheable(key = "'categories-all'")
     public List<Category> list() {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         return categoryDao.findAll(sort);
     }
 
     @Override
-//    @Cacheable(key = "'categories-page-'+#p0+'-'+#p1")
     public Page4Navigator<Category> categoryList(int start, int size, int navigatePages) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(start, size, sort);

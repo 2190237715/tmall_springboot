@@ -3,6 +3,7 @@ package com.xiaoxin.demo.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @Entity
 @Table(name = "Product")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
-public class Product {
+public class Product  implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

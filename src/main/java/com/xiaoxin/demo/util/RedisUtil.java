@@ -19,7 +19,7 @@ import org.springframework.util.CollectionUtils;
 @Component
 public class RedisUtil {
 
-    @Autowired
+//    @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
     /**
@@ -151,8 +151,8 @@ public class RedisUtil {
     /**
      * 递减
      *
-     * @param key 键
-     * @param delta  要减少几(小于0)
+     * @param key   键
+     * @param delta 要减少几(小于0)
      * @return
      */
     public long decr(String key, long delta) {

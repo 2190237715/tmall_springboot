@@ -21,7 +21,6 @@ import java.util.List;
  * @createDate 2019/11/20 15:50
  */
 @Service
-@CacheConfig(cacheNames = "propertyValues")
 public class PropertyValueServiceImpl implements PropertyValueService {
     @Autowired
     PropertyvalueDao propertyvalueDao;
@@ -49,13 +48,11 @@ public class PropertyValueServiceImpl implements PropertyValueService {
     }
 
     @Override
-    @CacheEvict(allEntries = true)
     public void updatePropertyValue(PropertyValue propertyValue) {
         propertyvalueDao.save(propertyValue);
     }
 
     @Override
-    @Cacheable(key = "'propertyValues-pid-'+ #p0.id")
     public List<PropertyValue> propertyValueList(Product product) {
         return propertyvalueDao.findByProductOrderByIdDesc(product);
     }

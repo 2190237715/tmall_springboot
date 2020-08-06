@@ -22,7 +22,6 @@ import java.util.List;
  * @createDate 2019/12/2 16:28
  */
 @Service
-@CacheConfig(cacheNames = "orderItems")
 public class OrderItemServiceImpl implements OrderItemService {
 
     @Autowired
@@ -70,45 +69,37 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
 
-
     @Override
-    @Cacheable(key = "'orderItems-pid-'+ #p0.id")
     public List<OrderItem> listByProduct(Product product) {
         return orderItemDao.findByProduct(product);
     }
 
     @Override
-    @Cacheable(key = "'orderItems-uid-'+ #p0.id")
     public List<OrderItem> listByUser(User user) {
         return orderItemDao.findByUserAndOrderIsNull(user);
     }
 
     @Override
-    @Cacheable(key = "'orderItems-oid-'+ #p0.id")
     public List<OrderItem> listByOrder(Order order) {
         return orderItemDao.findByOrderOrderByIdDesc(order);
     }
 
     @Override
-    @CacheEvict(allEntries = true)
     public void updateOrderItem(OrderItem orderItem) {
         orderItemDao.save(orderItem);
     }
 
     @Override
-    @CacheEvict(allEntries = true)
     public void addOrderItem(OrderItem orderItem) {
         orderItemDao.save(orderItem);
     }
 
     @Override
-    @Cacheable(key = "'orderItems-one-'+ #p0")
     public OrderItem findOrderItemById(int oiid) {
         return orderItemDao.findById(oiid).get();
     }
 
     @Override
-    @CacheEvict(allEntries = true)
     public void deleteOrderItem(int oiid) {
         orderItemDao.deleteById(oiid);
     }

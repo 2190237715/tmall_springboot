@@ -1,44 +1,51 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="include/admin/adminHeader::html('产品管理')" ></head>
+<head th:include="include/admin/adminHeader::html('产品管理')"></head>
 <body>
-<div th:replace="include/admin/adminNavigator::html" ></div>
+<div th:replace="include/admin/adminNavigator::html"></div>
 <script>
-    $(function(){
+    $(function () {
         var cid = getUrlParms("cid");
         var data4Vue = {
-            uri:'products',
+            uri: 'products',
             beans: [],
-            bean: {id:0,name:'','subTitle':'','originalPrice':99.98,'promotePrice':19.98,'stock':99,category:{'id':0}},
-            pagination:{},
-            category:''
+            bean: {
+                id: 0,
+                name: '',
+                'subTitle': '',
+                'originalPrice': 99.98,
+                'promotePrice': 19.98,
+                'stock': 99,
+                category: {'id': 0}
+            },
+            pagination: {},
+            category: ''
         };
 
         //ViewModel
         var vue = new Vue({
             el: '#workingArea',
             data: data4Vue,
-            mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+            mounted: function () { //mounted　表示这个 Vue 对象加载成功了
                 this.list(0);
                 this.getCategory(cid);
             },
             methods: {
-                getCategory:function(cid){
-                    var url = "categories/"+cid;
-                    axios.get(url).then(function(response) {
+                getCategory: function (cid) {
+                    var url = "categories/" + cid;
+                    axios.get(url).then(function (response) {
                         vue.category = response.data;
                     })
                 },
-                list:function(start){
-                    var url =  "categories/"+cid+"/"+this.uri+"?start="+start;
-                    axios.get(url).then(function(response) {
+                list: function (start) {
+                    var url = "categories/" + cid + "/" + this.uri + "?start=" + start;
+                    axios.get(url).then(function (response) {
                         vue.pagination = response.data;
-                        vue.beans = response.data.content	;
+                        vue.beans = response.data.content;
                     });
                 },
                 add: function () {
-                    if(!checkEmpty(this.bean.name, "产品名称"))
+                    if (!checkEmpty(this.bean.name, "产品名称"))
                         return;
                     if (!checkEmpty(this.bean.subTitle, "小标题"))
                         return;
@@ -50,28 +57,36 @@
                         return;
 
                     var url = this.uri;
-                    this.bean.category.id=cid;
-                    axios.post(url,this.bean).then(function(response){
+                    this.bean.category.id = cid;
+                    axios.post(url, this.bean).then(function (response) {
                         vue.list(0);
-                        vue.bean =  {id:0,name:'','subTitle':'','originalPrice':99.98,'promotePrice':19.98,'stock':99,category:{'id':0}};
+                        vue.bean = {
+                            id: 0,
+                            name: '',
+                            'subTitle': '',
+                            'originalPrice': 99.98,
+                            'promotePrice': 19.98,
+                            'stock': 99,
+                            category: {'id': 0}
+                        };
                     });
                 },
                 deleteBean: function (id) {
-                    if(!checkDeleteLink())
+                    if (!checkDeleteLink())
                         return;
-                    var url = this.uri+"/"+id;
-                    axios.delete(url).then(function(response){
-                        if(0!=response.data.length)
+                    var url = this.uri + "/" + id;
+                    axios.delete(url).then(function (response) {
+                        if (0 != response.data.length)
                             alert(response.data);
                         else
                             vue.list(0);
                     });
                 },
-                jump: function(page){
-                    jump(page,vue); //定义在adminHeader.html 中
+                jump: function (page) {
+                    jump(page, vue); //定义在adminHeader.html 中
                 },
-                jumpByNumber: function(start){
-                    jumpByNumber(start,vue);
+                jumpByNumber: function (start) {
+                    jumpByNumber(start, vue);
                 }
             }
 
@@ -80,7 +95,7 @@
 
 </script>
 
-<div id="workingArea" >
+<div id="workingArea">
     <ol class="breadcrumb">
         <li><a href="admin_category_list">所有分类</a></li>
         <li><a :href="'admin_product_list?cid='+category.id">{{category.name}}</a></li>
@@ -109,7 +124,8 @@
             <tr v-for="bean in beans ">
                 <td>{{bean.id}}</td>
                 <td>
-                    <img v-if="null != bean.firstProductImage" width="40px" :src="'img/productSingle/'+bean.firstProductImage.id+'.jpg'">
+                    <img v-if="null != bean.firstProductImage" width="40px"
+                         :src="'img/productSingle/'+bean.firstProductImage.id+'.jpg'">
                 </td>
                 <td>{{bean.name}}</td>
                 <td>{{bean.subTitle}}</td>
@@ -118,24 +134,27 @@
                 <td>{{bean.stock}}</td>
 
                 <td>
-                    <a :href="'admin_productImage_list?pid=' + bean.id "><span class="glyphicon glyphicon-picture"></span></a>
+                    <a :href="'admin_productImage_list?pid=' + bean.id "><span
+                            class="glyphicon glyphicon-picture"></span></a>
                 </td>
                 <td>
-                    <a :href="'admin_propertyValue_edit?pid=' + bean.id "><span class="glyphicon glyphicon-th-list"></span></a>
+                    <a :href="'admin_propertyValue_edit?pid=' + bean.id "><span
+                            class="glyphicon glyphicon-th-list"></span></a>
                 </td>
 
                 <td>
                     <a :href="'admin_product_edit?id=' + bean.id "><span class="glyphicon glyphicon-edit"></span></a>
                 </td>
                 <td>
-                    <a href="#nowhere"  @click="deleteBean(bean.id)"><span class="   glyphicon glyphicon-trash"></span></a>
+                    <a href="#nowhere" @click="deleteBean(bean.id)"><span
+                            class="   glyphicon glyphicon-trash"></span></a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
 
-    <div th:replace="include/admin/adminPage::html" ></div>
+    <div th:replace="include/admin/adminPage::html"></div>
 
     <div class="panel panel-warning addDiv">
         <div class="panel-heading">新增产品</div>
@@ -143,32 +162,32 @@
             <table class="addTable">
                 <tr>
                     <td>产品名称</td>
-                    <td><input  @keyup.enter="add" v-model.trim="bean.name" type="text" class="form-control"></td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.name" type="text" class="form-control"></td>
                 </tr>
                 <tr>
                     <td>产品小标题</td>
-                    <td><input  @keyup.enter="add" v-model.trim="bean.subTitle" type="text"
-                                class="form-control"></td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.subTitle" type="text"
+                               class="form-control"></td>
                 </tr>
                 <tr>
                     <td>原价格</td>
-                    <td><input  @keyup.enter="add" v-model.trim="bean.originalPrice"  type="text"
-                                class="form-control"></td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.originalPrice" type="text"
+                               class="form-control"></td>
                 </tr>
                 <tr>
                     <td>优惠价格</td>
-                    <td><input  @keyup.enter="add" v-model.trim="bean.promotePrice" type="text"
-                                class="form-control"></td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.promotePrice" type="text"
+                               class="form-control"></td>
                 </tr>
                 <tr>
                     <td>库存</td>
-                    <td><input  @keyup.enter="add" v-model.trim="bean.stock"  type="text"
-                                class="form-control"></td>
+                    <td><input @keyup.enter="add" v-model.trim="bean.stock" type="text"
+                               class="form-control"></td>
                 </tr>
 
                 <tr class="submitTR">
                     <td colspan="2" align="center">
-                        <a href="#nowhere"  @click="add" class="btn btn-success">提交</a>
+                        <a href="#nowhere" @click="add" class="btn btn-success">提交</a>
                     </td>
                 </tr>
             </table>
@@ -177,7 +196,7 @@
     </div>
 </div>
 
-<div th:replace="include/admin/adminFooter::html" ></div>
+<div th:replace="include/admin/adminFooter::html"></div>
 </body>
 </html>
 

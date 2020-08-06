@@ -3,6 +3,9 @@ package com.xiaoxin.demo.service;
 import com.xiaoxin.demo.pojo.Category;
 import com.xiaoxin.demo.pojo.Property;
 import com.xiaoxin.demo.util.Page4Navigator;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -12,12 +15,14 @@ import java.util.List;
  * @ClassName PropertyService
  * @createDate 2019/11/15 09:14
  */
+@CacheConfig(cacheNames = "properties")
 public interface PropertyService {
     /**
      * 新增属性
      *
      * @param property
      */
+    @CacheEvict(allEntries = true)
     void addProperty(Property property);
 
     /**
@@ -25,6 +30,7 @@ public interface PropertyService {
      *
      * @param id
      */
+    @CacheEvict(allEntries = true)
     void deletePropertyById(int id);
 
     /**
@@ -32,6 +38,7 @@ public interface PropertyService {
      *
      * @param property
      */
+    @CacheEvict(allEntries = true)
     void editProperty(Property property);
 
     /**
@@ -40,6 +47,7 @@ public interface PropertyService {
      * @param id
      * @return
      */
+    @Cacheable(key = "'properties-one-'+ #p0")
     Property findPropertyById(int id);
 
     /**
@@ -51,6 +59,7 @@ public interface PropertyService {
      * @param navigatePages
      * @return
      */
+    @Cacheable(key = "'properties-cid-'+#p0+'-page-'+#p1 + '-' + #p2 ")
     Page4Navigator<Property> propertyList(int cid, int start, int size, int navigatePages);
 
     /**
@@ -59,5 +68,6 @@ public interface PropertyService {
      * @param category
      * @return
      */
+    @Cacheable(key = "'properties-cid-'+ #p0.id")
     List<Property> findByCategory(Category category);
 }

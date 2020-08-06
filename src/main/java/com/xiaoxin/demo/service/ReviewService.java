@@ -3,6 +3,9 @@ package com.xiaoxin.demo.service;
 
 import com.xiaoxin.demo.pojo.Product;
 import com.xiaoxin.demo.pojo.Review;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -12,6 +15,7 @@ import java.util.List;
  * @ClassName ReviewService
  * @createDate 2020/03/13 15:31
  */
+@CacheConfig(cacheNames = "reviews")
 public interface ReviewService {
 
     /**
@@ -19,6 +23,7 @@ public interface ReviewService {
      *
      * @param review
      */
+    @CacheEvict(allEntries = true)
     void addReview(Review review);
 
 
@@ -28,6 +33,7 @@ public interface ReviewService {
      * @param product
      * @return
      */
+    @Cacheable(key = "'reviews-count-pid-'+ #p0.id")
     int getCount(Product product);
 
     /**
@@ -36,6 +42,7 @@ public interface ReviewService {
      * @param product
      * @return
      */
+    @Cacheable(key = "'reviews-pid-'+ #p0.id")
     List<Review> reviewList(Product product);
 
 }

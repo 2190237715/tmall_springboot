@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * @author fuqiangxin
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "ProductImage")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
-public class ProductImage {
+public class ProductImage implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

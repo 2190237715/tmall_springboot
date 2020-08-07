@@ -67,8 +67,10 @@ public class CategoryController {
      * @return
      * @throws IOException
      */
-    @PutMapping("/categories/ ")
+    @PutMapping("/categories/{id}")
     public Category editCategory(Category category, MultipartFile image, HttpServletRequest request) throws IOException {
+        String name = request.getParameter("name");
+        category.setName(name);
         categoryService.editCategory(category);
         if (null != image) {
             saveOrUpdateImageFile(category, image, request);

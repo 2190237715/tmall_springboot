@@ -6,9 +6,6 @@ import com.xiaoxin.demo.pojo.Product;
 import com.xiaoxin.demo.service.CategoryService;
 import com.xiaoxin.demo.util.Page4Navigator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -45,7 +42,6 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    @Cacheable(key = "'categories-one-'+#p0")
     public Category findCategoryById(int id) {
         return categoryDao.findById(id).get();
     }

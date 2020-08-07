@@ -62,12 +62,4 @@ public interface PropertyService {
     @Cacheable(key = "'properties-cid-'+#p0+'-page-'+#p1 + '-' + #p2 ")
     Page4Navigator<Property> propertyList(int cid, int start, int size, int navigatePages);
 
-    /**
-     * 根据Category查询属性列表
-     *
-     * @param category
-     * @return
-     */
-    @Cacheable(key = "'properties-cid-'+ #p0.id")
-    List<Property> findByCategory(Category category);
 }

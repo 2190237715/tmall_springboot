@@ -11,7 +11,7 @@ import java.util.List;
  * @createDate 2019/11/12 08:49
  */
 public class Page4Navigator<T> {
-    private Page<T> pageFromJPA;//用于传递分页对象
+    Page<T> pageFromJPA;//用于传递分页对象
     private int navigatePages;//导航栏总数量
     private int totalPages;//总页数
     private int number;//页数
@@ -78,14 +78,6 @@ public class Page4Navigator<T> {
             }
         }
         this.navigatepageNums = navigatepageNums;
-    }
-
-    public Page<T> getPageFromJPA() {
-        return pageFromJPA;
-    }
-
-    public void setPageFromJPA(Page<T> pageFromJPA) {
-        this.pageFromJPA = pageFromJPA;
     }
 
     public int getNavigatePages() {

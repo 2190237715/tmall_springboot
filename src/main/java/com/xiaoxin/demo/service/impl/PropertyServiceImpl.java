@@ -7,13 +7,7 @@ import com.xiaoxin.demo.pojo.Property;
 import com.xiaoxin.demo.service.PropertyService;
 import com.xiaoxin.demo.util.Page4Navigator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,10 +53,5 @@ public class PropertyServiceImpl implements PropertyService {
         Pageable pageable = PageRequest.of(start, size, sort);
         Page<Property> pageFromJPA = propertyDao.findByCategory(category, pageable);
         return new Page4Navigator(pageFromJPA, navigatePages);
-    }
-
-    @Override
-    public List<Property> findByCategory(Category category) {
-        return propertyDao.findByCategory(category);
     }
 }

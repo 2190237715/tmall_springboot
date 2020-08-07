@@ -48,6 +48,7 @@ public interface CategoryService {
      * @param id--类别ID
      * @return
      */
+    @Cacheable(key = "'categories-one-'+#p0")
     Category findCategoryById(int id);
 
     /**

@@ -42,7 +42,6 @@ public class PropertyValueServiceImpl implements PropertyValueService {
     }
 
     @Override
-    @Cacheable(key = "'propertyValues-one-pid-'+#p0.id+ '-ptid-' + #p1.id")
     public PropertyValue getByProductAndProperty(Product product, Property property) {
         return propertyvalueDao.getByProductAndProperty(product, property);
     }

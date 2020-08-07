@@ -14,6 +14,8 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.*;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author fuqiangxin
@@ -25,7 +27,6 @@ import java.time.Duration;
 @EnableCaching//启用缓存，这个注解很重要；
 //继承CachingConfigurerSupport，为了自定义生成KEY的策略。可以不继承。
 public class RedisConfig {
-
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
@@ -53,8 +54,8 @@ public class RedisConfig {
         //设置 value 的序列化方式为 jackson2JsonRedisSerializer
         RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig().serializeValuesWith(pair);
 
-        //设置默认超过期时间是100秒
-        defaultCacheConfig = defaultCacheConfig.entryTtl(Duration.ofSeconds(100));
+        //设置默认超过期时间是10分钟
+        defaultCacheConfig = defaultCacheConfig.entryTtl(Duration.ofMinutes(10));
 
         //初始化RedisCacheWriter
         RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory);
@@ -66,7 +67,6 @@ public class RedisConfig {
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         jackson2JsonRedisSerializer.setObjectMapper(om);
-
         return cacheManager;
     }
 }

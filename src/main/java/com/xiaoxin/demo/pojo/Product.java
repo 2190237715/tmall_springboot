@@ -2,6 +2,8 @@ package com.xiaoxin.demo.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,11 +24,13 @@ public class Product  implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Field(name = "id", type = FieldType.Keyword)
     private int id;
     @ManyToOne
     @JoinColumn(name = "cid")
     private Category category;
     //如果既没有指明 关联到哪个Column,又没有明确要用@Transient忽略，那么就会自动关联到表对应的同名字段
+    @Field(name = "name", type = FieldType.Keyword)
     private String name;
     private String subTitle;//产品小标题
     private float originalPrice;//正常价格

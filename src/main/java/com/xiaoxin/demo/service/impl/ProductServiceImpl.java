@@ -154,6 +154,7 @@ public class ProductServiceImpl implements ProductService {
                 .withSort(SortBuilders.fieldSort("id").unmappedType("int").order(SortOrder.DESC))
                 .build();
         Page<Product> products = productEsDao.search(searchQuery);
+
         return products.getContent();
     }
 

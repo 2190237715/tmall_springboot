@@ -1,6 +1,7 @@
 package com.xiaoxin.demo.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "Product")
+@Document(indexName = "tmall_springboot")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class Product  implements Serializable {
     @Id

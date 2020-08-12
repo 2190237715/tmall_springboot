@@ -4,21 +4,29 @@ import com.xiaoxin.demo.dao.CategoryDao;
 import com.xiaoxin.demo.dao.ProductDao;
 import com.xiaoxin.demo.pojo.Category;
 import com.xiaoxin.demo.pojo.Product;
+import com.xiaoxin.demo.search.ProductEsDao;
 import com.xiaoxin.demo.service.OrderItemService;
 import com.xiaoxin.demo.service.ProductImageService;
 import com.xiaoxin.demo.service.ProductService;
 import com.xiaoxin.demo.service.ReviewService;
 import com.xiaoxin.demo.util.Page4Navigator;
 import com.xiaoxin.demo.util.SpringContextUtil;
+import org.elasticsearch.common.lucene.search.function.CombineFunction;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
+import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilder;
+import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -39,6 +47,8 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     CategoryDao categoryDao;
     @Autowired
+    ProductEsDao productEsDao;
+    @Autowired
     OrderItemService orderItemService;
     @Lazy
     @Autowired
@@ -49,16 +59,19 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void addProduct(Product product) {
         productDao.save(product);
+        productEsDao.save(product);
     }
 
     @Override
     public void deleteProductById(int id) {
         productDao.deleteById(id);
+        productEsDao.deleteById(id);
     }
 
     @Override
     public void editProduct(Product product) {
         productDao.save(product);
+        productEsDao.save(product);
     }
 
     @Override
@@ -129,10 +142,29 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> search(String keyword, int start, int size) {
+        initDatabase2ES();
+        BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery().should(QueryBuilders.matchPhraseQuery("name", keyword));
+        ScoreFunctionBuilder scoreFunctionBuilder = ScoreFunctionBuilders.weightFactorFunction(100);
+        FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(queryBuilder, scoreFunctionBuilder).boostMode(CombineFunction.SUM);
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(start, size, sort);
-        List<Product> products = productDao.findByNameLike("%" + keyword + "%", pageable);
-        return products;
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+                .withPageable(pageable)
+                .withQuery(functionScoreQueryBuilder)
+                .withSort(SortBuilders.fieldSort("id").unmappedType("int").order(SortOrder.DESC))
+                .build();
+        Page<Product> products = productEsDao.search(searchQuery);
+        return products.getContent();
     }
 
+    private void initDatabase2ES() {
+        Pageable pageable = PageRequest.of(0, 5);
+        Page<Product> page = productEsDao.findAll(pageable);
+        if (page.getContent().isEmpty()) {
+            Iterable<Product> products = productEsDao.findAll();
+            for (Product product : products) {
+                productEsDao.save(product);
+            }
+        }
+    }
 }

@@ -12,7 +12,7 @@ import java.util.List;
  * @ClassName ReviewDAO
  * @createDate 2020/03/13 15:31
  */
-public interface ReviewDAO extends JpaRepository<Review, Integer> {
+public interface ReviewDao extends JpaRepository<Review, Integer> {
 
     /**
      * 返回某产品对应的评价数量

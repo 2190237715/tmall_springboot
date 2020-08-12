@@ -1,14 +1,11 @@
 package com.xiaoxin.demo.service.impl;
 
-import com.xiaoxin.demo.dao.ReviewDAO;
+import com.xiaoxin.demo.dao.ReviewDao;
 import com.xiaoxin.demo.pojo.Product;
 import com.xiaoxin.demo.pojo.Review;
 import com.xiaoxin.demo.service.ProductService;
 import com.xiaoxin.demo.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +20,7 @@ import java.util.List;
 @Service
 public class ReviewServiceImpl implements ReviewService {
     @Autowired
-    ReviewDAO reviewDAO;
+    ReviewDao reviewDAO;
     @Lazy
     @Autowired
     ProductService productService;

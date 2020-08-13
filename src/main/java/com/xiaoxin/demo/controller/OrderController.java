@@ -54,9 +54,7 @@ public class OrderController {
         Page4Navigator<Order> page = orderService.orderList(start, size, 5);
         orderItemService.fill(page.getContent());
         List<Order> orders = page.getContent();
-        System.out.println("1");
         orderService.removeOrderFromOrderItem(orders);
-        System.out.println("3");
         return page;
     }
 

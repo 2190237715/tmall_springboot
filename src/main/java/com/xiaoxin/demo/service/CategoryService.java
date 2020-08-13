@@ -67,6 +67,7 @@ public interface CategoryService {
      * @param navigatePages
      * @return
      */
+    @Cacheable(key = "'categories-page-'+#p0+'-'+#p1")
     Page4Navigator<Category> categoryList(int start, int size, int navigatePages);
 
     /**
@@ -74,7 +75,6 @@ public interface CategoryService {
      *
      * @param category
      */
-    @Cacheable(key = "'categories-page-'+#p0+'-'+#p1")
     void removeCategoryFromProduct(Category category);
 
     /**

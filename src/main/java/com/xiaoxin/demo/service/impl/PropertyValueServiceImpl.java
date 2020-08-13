@@ -42,11 +42,6 @@ public class PropertyValueServiceImpl implements PropertyValueService {
     }
 
     @Override
-    public PropertyValue getByProductAndProperty(Product product, Property property) {
-        return propertyvalueDao.getByProductAndProperty(product, property);
-    }
-
-    @Override
     public void updatePropertyValue(PropertyValue propertyValue) {
         propertyvalueDao.save(propertyValue);
     }

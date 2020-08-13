@@ -45,7 +45,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void removeOrderFromOrderItem(List<Order> orders) {
-        System.out.println("2");
         for (Order orderItem : orders) {
             System.out.println(orderItem.getId()+"==="+orderItem.getUser().getName());
         }

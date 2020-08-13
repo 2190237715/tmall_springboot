@@ -26,16 +26,6 @@ public interface PropertyValueService {
     void init(Product product);
 
     /**
-     * 根据产品和属性查询产品属性
-     *
-     * @param product
-     * @param property
-     * @return
-     */
-    @Cacheable(key = "'propertyValues-one-pid-'+#p0.id+ '-ptid-' + #p1.id")
-    PropertyValue getByProductAndProperty(Product product, Property property);
-
-    /**
      * 修改产品属性
      *
      * @param propertyValue

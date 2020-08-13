@@ -22,7 +22,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
                 value = ElasticsearchRepository.class))
 public class ElasticsearchConfig {
     @Bean
-    RestHighLevelClient elasticsearchClient() {
+    RestHighLevelClient ProductServiceClient() {
         ClientConfiguration configuration = ClientConfiguration.builder()
                 .connectedTo("localhost:9200")
                 //.withConnectTimeout(Duration.ofSeconds(5))

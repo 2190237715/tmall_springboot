@@ -7,6 +7,8 @@ import com.xiaoxin.demo.util.Page4Navigator;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +29,21 @@ public interface OrderService {
 
     @Cacheable(key = "'orders-page-'+#p0+ '-' + #p1")
     Page4Navigator<Order> orderList(int start, int size, int navigatePages);
+    @Cacheable(key = "'orders-one-'+ #p0")
+    Order findOrderById(int id);
+
+    @CacheEvict(allEntries = true)
+    void updateOrder(Order order);
+
+    @CacheEvict(allEntries = true)
+    @Transactional(propagation= Propagation.REQUIRED,rollbackForClassName="Exception")
+    float addOrder(Order order, List<OrderItem> orderItems);
+
+    List<Order> listByUserWithoutDelete(User user);
+
+    @Cacheable(key = "'orders-uid-'+ #p0.id")
+    List<Order> listByUserAndNotDeleted(User user);
+
 
     void removeOrderFromOrderItem(List<Order> orders);
 
@@ -36,20 +53,6 @@ public interface OrderService {
      * @param order
      */
     void removeOrderFromOrderItem(Order order);
-
-    @Cacheable(key = "'orders-one-'+ #p0")
-    Order findOrderById(int id);
-
-    @CacheEvict(allEntries = true)
-    void updateOrder(Order order);
-
-    @CacheEvict(allEntries = true)
-    float addOrder(Order order, List<OrderItem> orderItems);
-
-    List<Order> listByUserWithoutDelete(User user);
-
-    @Cacheable(key = "'orders-uid-'+ #p0.id")
-    List<Order> listByUserAndNotDeleted(User user);
 
     /**
      * 计算价钱

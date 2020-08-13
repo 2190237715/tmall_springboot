@@ -44,6 +44,7 @@ public class Category implements Serializable {
         this.name = name;
     }
 
+    @OneToMany
     public List<Product> getProducts() {
         return products;
     }

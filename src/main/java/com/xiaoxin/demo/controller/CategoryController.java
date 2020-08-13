@@ -2,6 +2,7 @@ package com.xiaoxin.demo.controller;
 
 import com.xiaoxin.demo.pojo.Category;
 import com.xiaoxin.demo.service.CategoryService;
+import com.xiaoxin.demo.service.ProductService;
 import com.xiaoxin.demo.util.ImageUtil;
 import com.xiaoxin.demo.util.Page4Navigator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     CategoryService categoryService;
+    @Autowired
+    ProductService productService;
+
 
     /**
      * 新增类别
@@ -50,11 +54,15 @@ public class CategoryController {
      * @return
      */
     @DeleteMapping("/categories/{id}")
-    public String deleteCategoryById(@PathVariable("id") int id, HttpServletRequest request) {
+    public int deleteCategoryById(@PathVariable("id") int id, HttpServletRequest request) {
+        int count = productService.canDeleteCategory(id);
+        if (count > 0) {
+            return count;
+        }
         categoryService.deleteCategoryById(id);
         File file = new File(request.getServletContext().getRealPath("img/category"));
         file.delete();
-        return null;
+        return 0;
     }
 
 

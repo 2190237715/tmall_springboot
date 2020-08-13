@@ -158,6 +158,11 @@ public class ProductServiceImpl implements ProductService {
         return products.getContent();
     }
 
+    @Override
+    public int canDeleteCategory(int cid) {
+        return productDao.canDeleteCategory(cid);
+    }
+
     private void initDatabase2ES() {
         Pageable pageable = PageRequest.of(0, 5);
         Page<Product> page = productEsDao.findAll(pageable);

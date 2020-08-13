@@ -55,13 +55,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
-        <!--         用了 elasticsearch 就要加这么一个，不然要com.sun.jna.Native 错误-->
-<!--        <dependency>-->
-<!--            <groupId>com.sun.jna</groupId>-->
-<!--            <artifactId>jna</artifactId>-->
-<!--            <version>3.0.9</version>-->
-<!--        </dependency>-->
-        <!-- druid-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>

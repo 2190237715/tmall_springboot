@@ -116,4 +116,12 @@ public interface ProductService {
      * @return
      */
     List<Product> search(String keyword, int start, int size);
+
+    /**
+     * 查询是否能删除分类
+     *
+     * @param cid
+     * @return
+     */
+    int canDeleteCategory(int cid);
 }

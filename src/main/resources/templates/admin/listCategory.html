@@ -55,9 +55,11 @@
                     var url = this.uri + "/" + id;
                     axios.delete(url).then(function (response) {
                         if (0 != response.data.length) {
-                            alert(response.data);
-                        } else {
-                            vue.list(0);
+                            if (response.data > 0) {
+                                alert("分类里存在产品请先删除产品！");
+                            } else {
+                                vue.list(0);
+                            }
                         }
                     });
                 },

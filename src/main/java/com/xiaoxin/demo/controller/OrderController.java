@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author fuqiangxin
@@ -52,7 +53,10 @@ public class OrderController {
         start = start < 0 ? 0 : start;
         Page4Navigator<Order> page = orderService.orderList(start, size, 5);
         orderItemService.fill(page.getContent());
-        orderService.removeOrderFromOrderItem(page.getContent());
+        List<Order> orders = page.getContent();
+        System.out.println("1");
+        orderService.removeOrderFromOrderItem(orders);
+        System.out.println("3");
         return page;
     }
 

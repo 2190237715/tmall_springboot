@@ -49,7 +49,6 @@ public class OrderItemServiceImpl implements OrderItemService {
         order.setTotal(total);
         order.setOrderItems(orderItems);
         order.setTotalNumber(totalNumber);
-        order.setOrderItems(orderItems);
     }
 
 

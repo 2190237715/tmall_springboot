@@ -73,10 +73,6 @@ public class PropertyController {
      * @param size
      * @return
      */
-    //通过点击a链接显示属性分页的时候出现
-    // Cannot construct instance of `org.springframework.data.domain.PageImpl`
-    // (no Creators, like default construct, exist):
-    // cannot deserialize from Object value (no delegate- or property-based Creator)
     @GetMapping("/categories/{cid}/properties")
     public Page4Navigator<Property> propertyList(@PathVariable("cid") int cid,
                                                  @RequestParam(value = "start", defaultValue = "0") int start,

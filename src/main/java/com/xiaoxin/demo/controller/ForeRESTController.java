@@ -117,12 +117,10 @@ public class ForeRESTController {
         List<ProductImage> productDetailImages = productImageService.listDetailProductImages(product);
         product.setProductSingleImages(productSingleImages);
         product.setProductDetailImages(productDetailImages);
-
         List<PropertyValue> propertyValues = propertyValueService.propertyValueList(product);
         List<Review> reviews = reviewService.reviewList(product);
         productService.setSaleAndReviewNumber(product);
         productImageService.setFirstProductImage(product);
-
         Map<String, Object> map = new HashMap<>();
         map.put("product", product);
         map.put("pvs", propertyValues);

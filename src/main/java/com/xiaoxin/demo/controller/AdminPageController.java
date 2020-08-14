@@ -119,13 +119,4 @@ public class AdminPageController {
         return "admin/listOrder";
     }
 
-    /**
-     * 跳转测试页面
-     *
-     * @return
-     */
-    @GetMapping(value = "/index")
-    public String index() {
-        return "admin/index";
-    }
 }

@@ -27,7 +27,6 @@ public class Category implements Serializable {
     @Transient
     private List<List<Product>> productsByRow;
 
-
     public int getId() {
         return id;
     }

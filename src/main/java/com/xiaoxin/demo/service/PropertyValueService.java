@@ -1,7 +1,6 @@
 package com.xiaoxin.demo.service;
 
 import com.xiaoxin.demo.pojo.Product;
-import com.xiaoxin.demo.pojo.Property;
 import com.xiaoxin.demo.pojo.PropertyValue;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;

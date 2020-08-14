@@ -30,15 +30,6 @@ public class ProductImageController {
     @Autowired
     ProductService productService;
 
-
-    public ProductImage addProductImage() {
-        return null;
-    }
-
-    public String deleteProductImage() {
-        return null;
-    }
-
     /**
      * 根据不同类型（单个/详细）和产品查询产品图片列表
      *
@@ -96,7 +87,6 @@ public class ProductImageController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         if (ProductImageService.type_single.equals(productImage.getType())) {
             String imageFolder_small = request.getServletContext().getRealPath("img/productSingle_small");
             String imageFolder_middle = request.getServletContext().getRealPath("img/productSingle_middle");
@@ -123,7 +113,6 @@ public class ProductImageController {
     public String deleteProductImageById(@PathVariable("id") int id, HttpServletRequest request) throws Exception {
         ProductImage bean = productImageService.findProductImageById(id);
         productImageService.deleteProductImageById(id);
-
         String folder = "img/";
         if (ProductImageService.type_single.equals(bean.getType()))
             folder += "productSingle";

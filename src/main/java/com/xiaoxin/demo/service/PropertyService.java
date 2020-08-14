@@ -1,13 +1,11 @@
 package com.xiaoxin.demo.service;
 
-import com.xiaoxin.demo.pojo.Category;
 import com.xiaoxin.demo.pojo.Property;
 import com.xiaoxin.demo.util.Page4Navigator;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
-import java.util.List;
 
 /**
  * @author fuqiangxin

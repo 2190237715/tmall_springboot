@@ -24,7 +24,6 @@ import java.time.Duration;
  */
 @Configuration
 @EnableCaching//启用缓存，这个注解很重要；
-//继承CachingConfigurerSupport，为了自定义生成KEY的策略。可以不继承。
 public class RedisConfig {
 
     @Bean
@@ -38,29 +37,23 @@ public class RedisConfig {
         // 设置键（key）的序列化采用StringRedisSerializer。
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-
-
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
 
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-
         //初始化json的序列化方式
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
         RedisSerializationContext.SerializationPair<Object> pair = RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer);
         //设置 value 的序列化方式为 jackson2JsonRedisSerializer
         RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig().serializeValuesWith(pair);
-
         //设置默认超过期时间是10分钟
         defaultCacheConfig = defaultCacheConfig.entryTtl(Duration.ofMinutes(10));
-
         //初始化RedisCacheWriter
         RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory);
         //初始化RedisCacheManager
         RedisCacheManager cacheManager = new RedisCacheManager(redisCacheWriter, defaultCacheConfig);
-
         //解决查询缓存转换异常的问题
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.PUBLIC_ONLY);

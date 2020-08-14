@@ -72,18 +72,18 @@ div.searchDiv {
 
 div.searchDiv input {
     width: 275px;
-    border: 1px solid transparent;
-    height: 36px;
-    margin: 1px;
+    border: 3px solid transparent;
+    height: 29px;
+    margin: 3px;
     outline: none;
 }
 
 div.searchDiv button {
-    width: 110px;
+    width: 108px;
     border: 1px solid transparent;
     background-color: #C40000;
     color: white;
-    font-size: 20px;
+    font-size: 19px;
     font-weight: bold;
 }
 
@@ -300,11 +300,11 @@ div.productItem span.productItemDesc {
 }
 
 div.productItem span.productPrice {
-    font-size: 16px;
+    font-size: 17px;
     color: #FF003A;
     display: block;
-    padding-left: 16px;
-    margin-top: -10px;
+    padding-left: 35px;
+    margin-top: 0px;
 }
 
 div.eachHomepageCategoryProducts {
@@ -312,8 +312,8 @@ div.eachHomepageCategoryProducts {
 }
 
 div.productItem img {
-    width: 187px;
-    height: 190px;
+    width: 166px;
+    height: 185px;
 }
 
 div.productItem img:hover {
@@ -2276,7 +2276,7 @@ a.productLink {
 }
 
 img.carouselImage {
-    height: 510px !important;
+    height: 540px !important;
 }
 
 div.noMatch {

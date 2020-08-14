@@ -93,20 +93,20 @@ public class ProductServiceImpl implements ProductService {
         return productDao.findByCategoryOrderById(category);
     }
 
-    @Override
-    public void fill(Category category) {
-        ProductServiceImpl productService = SpringContextUtil.getBean(ProductServiceImpl.class);
-        List<Product> products = productService.listByCategory(category);
-        productImageService.setFirstProductImages(products);
-        category.setProducts(products);
-    }
-
 
     @Override
     public void fill(List<Category> categories) {
         for (Category category : categories) {
             fill(category);
         }
+    }
+
+    @Override
+    public void fill(Category category) {
+        ProductServiceImpl productService = SpringContextUtil.getBean(ProductServiceImpl.class);
+        List<Product> products = productService.listByCategory(category);
+        productImageService.setFirstProductImages(products);
+        category.setProducts(products);
     }
 
     @Override

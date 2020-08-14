@@ -1,5 +1,6 @@
 package com.xiaoxin.demo.controller;
 
+import io.swagger.annotations.Api;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
  * @createDate 2019/12/17 10:12
  */
 @Controller
+@Api(tags = "用于前台跳转管理")
 public class ForePageController {
     @GetMapping(value = "/")
     public String index() {

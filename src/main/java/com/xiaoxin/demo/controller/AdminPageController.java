@@ -1,5 +1,6 @@
 package com.xiaoxin.demo.controller;
 
+import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -11,8 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @createDate 2019/11/5 19:34
  */
 @Controller
+@Api(tags = "用于后台跳转管理")
 public class AdminPageController {
-
 
     @GetMapping(value = "admin")
     public String admin() {

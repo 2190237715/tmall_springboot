@@ -3,6 +3,8 @@ package com.xiaoxin.demo.controller;
 import com.xiaoxin.demo.pojo.User;
 import com.xiaoxin.demo.service.UserService;
 import com.xiaoxin.demo.util.Page4Navigator;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @createDate 2019/11/22 15:37
  */
 @RestController
+@Api(tags = "用户管理接口描述")
 public class UserController {
     @Autowired
     UserService userService;
@@ -27,6 +30,7 @@ public class UserController {
      * @return
      */
     @GetMapping("/users")
+    @ApiOperation(value ="分页查询用户列表" ,notes = "待定")
     public Page4Navigator<User> UserList(@RequestParam(name = "start", defaultValue = "0") int start,
                                          @RequestParam(name = "size", defaultValue = "5") int size) {
         start = start < 0 ? 0 : start;

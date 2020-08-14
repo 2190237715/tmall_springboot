@@ -5,6 +5,10 @@ import com.xiaoxin.demo.service.CategoryService;
 import com.xiaoxin.demo.service.ProductService;
 import com.xiaoxin.demo.util.ImageUtil;
 import com.xiaoxin.demo.util.Page4Navigator;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +26,7 @@ import java.util.List;
  * @ClassName CategoryController--类别管理控制器（RESTFUL方式）
  * @createDate 2019/11/5 19:40
  */
+@Api(tags = "类别管理接口描述")
 @RestController
 public class CategoryController {
     @Autowired
@@ -40,6 +45,7 @@ public class CategoryController {
      * @throws IOException
      */
     @PostMapping("/categories")
+    @ApiOperation(value = "新增类别", notes = "待定")
     public Category addCategory(Category category, MultipartFile image, HttpServletRequest request) throws IOException {
         categoryService.addCategory(category);
         saveOrUpdateImageFile(category, image, request);
@@ -54,6 +60,7 @@ public class CategoryController {
      * @return
      */
     @DeleteMapping("/categories/{id}")
+    @ApiOperation(value = "删除类别", notes = "待定")
     public int deleteCategoryById(@PathVariable("id") int id, HttpServletRequest request) {
         int count = productService.canDeleteCategory(id);
         if (count > 0) {
@@ -76,6 +83,7 @@ public class CategoryController {
      * @throws IOException
      */
     @PutMapping("/categories/{id}")
+    @ApiOperation(value = "修改类别", notes = "待定")
     public Category editCategory(Category category, MultipartFile image, HttpServletRequest request) throws IOException {
         String name = request.getParameter("name");
         category.setName(name);
@@ -93,6 +101,7 @@ public class CategoryController {
      * @return
      */
     @GetMapping("/categories/{id}")
+    @ApiOperation(value = "查询类别", notes = "待定")
     public Category findCategoryById(@PathVariable("id") int id) {
         Category category = categoryService.findCategoryById(id);
         return category;
@@ -104,6 +113,7 @@ public class CategoryController {
      * @return 返回类别列表--暂时不用
      */
     @GetMapping("/categories/nopage")
+    @ApiOperation(value = "查询非分页的总列表", notes = "待定")
     public List<Category> list() {
         List<Category> categories = categoryService.list();
         return categories;
@@ -117,6 +127,7 @@ public class CategoryController {
      * @return 返回类别分页列表
      */
     @GetMapping("/categories")
+    @ApiOperation(value = "类别分页列表", notes = "待定")
     public Page4Navigator<Category> categorylist(@RequestParam(value = "start", defaultValue = "0") int start,
                                                  @RequestParam(value = "size", defaultValue = "5") int size) {
         start = start < 0 ? 0 : start;

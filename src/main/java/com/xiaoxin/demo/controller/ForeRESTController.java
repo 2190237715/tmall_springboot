@@ -4,6 +4,8 @@ import com.xiaoxin.demo.comparator.*;
 import com.xiaoxin.demo.pojo.*;
 import com.xiaoxin.demo.service.*;
 import com.xiaoxin.demo.util.Result;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -26,6 +28,7 @@ import java.util.*;
  * @createDate 2019/12/17 10:32
  */
 @RestController
+@Api(tags = "前台管理接口描述")
 public class ForeRESTController {
 
     @Autowired
@@ -51,6 +54,7 @@ public class ForeRESTController {
      * @return
      */
     @GetMapping("/forehome")
+    @ApiOperation(value ="填充产品清除重复类别" ,notes = "待定")
     public List<Category> home() {
         List<Category> categories = categoryService.list();
         productService.fill(categories);
@@ -67,6 +71,7 @@ public class ForeRESTController {
      * @return
      */
     @PostMapping("/foreregister")
+    @ApiOperation(value ="注册" ,notes = "待定")
     public Result register(@RequestBody User user) {
         String name = user.getName();
         String password = user.getPassword();
@@ -95,6 +100,7 @@ public class ForeRESTController {
      * @return
      */
     @PostMapping("/forelogin")
+    @ApiOperation(value ="登陆" ,notes = "待定")
     public Result login(@RequestBody User userParam, HttpSession session) {
         String name = HtmlUtils.htmlEscape(userParam.getName());
         Subject subject = SecurityUtils.getSubject();
@@ -111,6 +117,7 @@ public class ForeRESTController {
     }
 
     @GetMapping("/foreproduct/{pid}")
+    @ApiOperation(value ="显示单个产品的详细" ,notes = "待定")
     public Object product(@PathVariable("pid") int pid) {
         Product product = productService.findProductById(pid);
         List<ProductImage> productSingleImages = productImageService.listSingleProductImages(product);
@@ -135,6 +142,7 @@ public class ForeRESTController {
      * @return
      */
     @GetMapping("forecheckLogin")
+    @ApiOperation(value ="判断是否登陆" ,notes = "待定")
     public Object checkLogin(HttpSession session) {
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
@@ -151,6 +159,7 @@ public class ForeRESTController {
      * @return
      */
     @GetMapping("forecategory/{cid}")
+    @ApiOperation(value ="各种排序查询" ,notes = "待定")
     public Object category(@PathVariable("cid") int cid, String sort) {
         Category category = categoryService.findCategoryById(cid);
         productService.fill(category);
@@ -186,6 +195,7 @@ public class ForeRESTController {
      * @return
      */
     @PostMapping("foresearch")
+    @ApiOperation(value ="全局搜索" ,notes = "待定")
     public Object search(String keyword) {
         if (null == keyword) {
             keyword = "";
@@ -240,6 +250,7 @@ public class ForeRESTController {
      * @return
      */
     @GetMapping("forebuyone")
+    @ApiOperation(value ="立即购买" ,notes = "待定")
     public Object buyOne(int pid, int num, HttpSession session) {
         return byOneAndAddCart(pid, num, session);
     }
@@ -251,6 +262,7 @@ public class ForeRESTController {
      * @return
      */
     @GetMapping("forebuy")
+    @ApiOperation(value ="下单结算" ,notes = "待定")
     public Object buy(HttpSession session, String[] oiid) {
         List<OrderItem> orderItems = new ArrayList<>();
         float total = 0;
@@ -277,6 +289,7 @@ public class ForeRESTController {
      * @return
      */
     @GetMapping("foreaddCart")
+    @ApiOperation(value ="加入购物车" ,notes = "待定")
     public Object addCart(int pid, int num, HttpSession session) {
         byOneAndAddCart(pid, num, session);
         return Result.success();
@@ -289,6 +302,7 @@ public class ForeRESTController {
      * @return
      */
     @GetMapping("forecart")
+    @ApiOperation(value ="选中购物车" ,notes = "待定")
     public Object cart(HttpSession session) {
         User user = (User) session.getAttribute("user");
         List<OrderItem> orderItems = orderItemService.listByUser(user);
@@ -305,6 +319,7 @@ public class ForeRESTController {
      * @return
      */
     @GetMapping("forechangeOrderItem")
+    @ApiOperation(value ="修改购物车" ,notes = "待定")
     public Object changeOrderItem(HttpSession session, int pid, int num) {
         User user = (User) session.getAttribute("user");
         if (null == user) {
@@ -329,6 +344,7 @@ public class ForeRESTController {
      * @return
      */
     @GetMapping("foredeleteOrderItem")
+    @ApiOperation(value ="删除订单列表" ,notes = "待定")
     public Object deleteOrderItem(HttpSession session, int oiid) {
         User user = (User) session.getAttribute("user");
         if (null == user) {
@@ -346,6 +362,7 @@ public class ForeRESTController {
      * @return
      */
     @PostMapping("forecreateOrder")
+    @ApiOperation(value ="新增订单" ,notes = "待定")
     public Object createOrder(Order order, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (null == user) {
@@ -372,6 +389,7 @@ public class ForeRESTController {
      * @return
      */
     @GetMapping("forepayed")
+    @ApiOperation(value ="扫码支付" ,notes = "待定")
     public Object payed(int oid) {
         Order order = orderService.findOrderById(oid);
         order.setPayDate(new Date());
@@ -387,6 +405,7 @@ public class ForeRESTController {
      * @return
      */
     @GetMapping("forebought")
+    @ApiOperation(value ="查询订单" ,notes = "待定")
     public Object bought(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (null == user) {
@@ -404,6 +423,7 @@ public class ForeRESTController {
      * @return
      */
     @GetMapping("foreconfirmPay")
+    @ApiOperation(value ="确认收货" ,notes = "待定")
     public Object confirmPay(int oid) {
         Order order = orderService.findOrderById(oid);
         orderItemService.fill(order);
@@ -419,6 +439,7 @@ public class ForeRESTController {
      * @return
      */
     @GetMapping("foreorderConfirmed")
+    @ApiOperation(value ="收货成功" ,notes = "待定")
     public Object orderConfirmed(int oid) {
         Order order = orderService.findOrderById(oid);
         order.setStatus(orderService.waitReview);
@@ -434,6 +455,7 @@ public class ForeRESTController {
      * @return
      */
     @PutMapping("foredeleteOrder")
+    @ApiOperation(value ="删除订单" ,notes = "待定")
     public Object deleteOrder(int oid) {
         Order order = orderService.findOrderById(oid);
         order.setStatus(OrderService.delete);
@@ -448,6 +470,7 @@ public class ForeRESTController {
      * @return
      */
     @GetMapping("forereview")
+    @ApiOperation(value ="产品评价" ,notes = "待定")
     public Object review(int oid) {
         Order order = orderService.findOrderById(oid);
         orderItemService.fill(order);
@@ -472,6 +495,7 @@ public class ForeRESTController {
      * @return
      */
     @PostMapping("foredoreview")
+    @ApiOperation(value ="提交评价" ,notes = "待定")
     public Object doreview(HttpSession session, int oid, int pid, String content) {
         Order order = orderService.findOrderById(oid);
         order.setStatus(OrderService.finish);

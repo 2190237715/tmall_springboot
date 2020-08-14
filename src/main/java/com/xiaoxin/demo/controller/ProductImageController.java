@@ -5,6 +5,8 @@ import com.xiaoxin.demo.pojo.ProductImage;
 import com.xiaoxin.demo.service.ProductImageService;
 import com.xiaoxin.demo.service.ProductService;
 import com.xiaoxin.demo.util.ImageUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +26,7 @@ import java.util.List;
  * @createDate 2019/11/19 17:28
  */
 @RestController
+@Api(tags = "产品图片管理接口描述")
 public class ProductImageController {
     @Autowired
     ProductImageService productImageService;
@@ -38,6 +41,7 @@ public class ProductImageController {
      * @return
      */
     @GetMapping("products/{pid}/productImages")
+    @ApiOperation(value ="查询产品图片列表" ,notes = "根据不同类型（单个/详细）和产品查询产品图片列表")
     public List<ProductImage> productImageList(@RequestParam("type") String type,
                                                @PathVariable("pid") int pid) {
         List<ProductImage> productImageList;
@@ -63,6 +67,7 @@ public class ProductImageController {
      * @throws Exception
      */
     @PostMapping("/productImages")
+    @ApiOperation(value ="新增图片" ,notes = "待定")
     public ProductImage addProductImage(@RequestParam("pid") int pid, @RequestParam("type") String type, MultipartFile image, HttpServletRequest request) throws Exception {
         ProductImage productImage = new ProductImage();
         Product product = productService.findProductById(pid);
@@ -110,6 +115,7 @@ public class ProductImageController {
      * @throws Exception
      */
     @DeleteMapping("/productImages/{id}")
+    @ApiOperation(value ="删除图片" ,notes = "待定")
     public String deleteProductImageById(@PathVariable("id") int id, HttpServletRequest request) throws Exception {
         ProductImage bean = productImageService.findProductImageById(id);
         productImageService.deleteProductImageById(id);

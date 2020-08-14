@@ -4,6 +4,8 @@ import com.xiaoxin.demo.pojo.Product;
 import com.xiaoxin.demo.service.ProductImageService;
 import com.xiaoxin.demo.service.ProductService;
 import com.xiaoxin.demo.util.Page4Navigator;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * @createDate 2019/11/19 15:18
  */
 @RestController
+@Api(tags = "产品管理接口描述")
 public class ProductController {
 
     @Autowired
@@ -28,6 +31,7 @@ public class ProductController {
      * @return
      */
     @PostMapping("/products")
+    @ApiOperation(value ="新增产品" ,notes = "待定")
     public Product addProduct(@RequestBody Product product) {
         productService.addProduct(product);
         return product;
@@ -40,6 +44,7 @@ public class ProductController {
      * @return
      */
     @DeleteMapping("/products/{id}")
+    @ApiOperation(value ="删除产品" ,notes = "待定")
     public String deleteProductById(@PathVariable("id") int id) {
         //TODO 产品删除没做级联
         productService.deleteProductById(id);
@@ -53,6 +58,7 @@ public class ProductController {
      * @return
      */
     @PutMapping("/products")
+    @ApiOperation(value ="修改产品" ,notes = "待定")
     public Product editProduct(@RequestBody Product product) {
         productService.editProduct(product);
         return product;
@@ -65,6 +71,7 @@ public class ProductController {
      * @return
      */
     @GetMapping("/products/{id}")
+    @ApiOperation(value ="查询产品" ,notes = "待定")
     public Product findCategoryById(@PathVariable("id") int id) {
         return productService.findProductById(id);
     }
@@ -78,6 +85,7 @@ public class ProductController {
      * @return
      */
     @GetMapping("/categories/{cid}/products")
+    @ApiOperation(value ="分页查询" ,notes = "待定")
     public Page4Navigator<Product> productList(@PathVariable("cid") int cid,
                                                @RequestParam(value = "start", defaultValue = "0") int start,
                                                @RequestParam(value = "size", defaultValue = "5") int size) {

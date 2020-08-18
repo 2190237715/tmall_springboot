@@ -886,7 +886,7 @@ div.infoInimgAndInfo span.productNumberSettingSpan {
 
 div.infoInimgAndInfo input.productNumberSetting {
     border: 0px;
-    height: 80%;
+    /*height: 80%;*/
     width: 80%;
 }
 

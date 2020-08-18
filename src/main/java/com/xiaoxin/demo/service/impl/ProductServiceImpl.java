@@ -158,6 +158,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> searchLike(String keyword, int start, int size) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(start, size, sort);
+        List<Product> products =productDao.findByNameLike("%"+keyword+"%",pageable);
+        return products;
+    }
+
+    @Override
     public int canDeleteCategory(int cid) {
         return productDao.canDeleteCategory(cid);
     }

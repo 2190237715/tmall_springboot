@@ -107,7 +107,7 @@ public interface ProductService {
     void setSaleAndReviewNumber(List<Product> products);
 
     /**
-     * 根据名字进行模糊查询
+     * elasticsearch
      *
      * @param keyword
      * @param start
@@ -115,6 +115,16 @@ public interface ProductService {
      * @return
      */
     List<Product> search(String keyword, int start, int size);
+
+    /**
+     * 根据名字进行模糊查询
+     *
+     * @param keyword
+     * @param start
+     * @param size
+     * @return
+     */
+    List<Product> searchLike(String keyword, int start, int size);
 
     /**
      * 查询是否能删除分类

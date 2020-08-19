@@ -41,11 +41,12 @@
                         axios.get(url).then(function (response) {
                             var result = response.data;
                             if (0 == result.code) {
-                            //     $(".addCartButton").html("已加入购物车");
-                            //     $(".addCartButton").attr("disabled", "disabled");
-                            //     $(".addCartButton").css("background-color", "lightgray")
-                            //     $(".addCartButton").css("border-color", "lightgray")
-                            //     $(".addCartButton").css("color", "black")
+                                location.reload()
+                                //     $(".addCartButton").html("已加入购物车");
+                                //     $(".addCartButton").attr("disabled", "disabled");
+                                //     $(".addCartButton").css("background-color", "lightgray")
+                                //     $(".addCartButton").css("border-color", "lightgray")
+                                //     $(".addCartButton").css("color", "black")
                             }
                         });
                     } else {
@@ -211,7 +212,8 @@
                 </a>
                 <a href="#nowhere" class="addCartLink">
                     <button class="addCartButton">
-                        <span class="glyphicon glyphicon-shopping-cart"></span>加入购物车</button>
+                        <span class="glyphicon glyphicon-shopping-cart"></span>加入购物车
+                    </button>
                 </a>
             </div>
         </div>

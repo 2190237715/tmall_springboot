@@ -29,6 +29,7 @@ public interface OrderService {
 
     @Cacheable(key = "'orders-page-'+#p0+ '-' + #p1")
     Page4Navigator<Order> orderList(int start, int size, int navigatePages);
+    
     @Cacheable(key = "'orders-one-'+ #p0")
     Order findOrderById(int id);
 

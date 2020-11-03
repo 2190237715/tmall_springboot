@@ -4,6 +4,7 @@ import com.xiaoxin.demo.pojo.Product;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 
+
 /**
  * @author fuqiangxin
  * @Classname: ProductEsDao
@@ -12,4 +13,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ProductEsDao extends ElasticsearchRepository<Product, Integer> {
+
 }

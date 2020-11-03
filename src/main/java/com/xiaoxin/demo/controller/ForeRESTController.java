@@ -200,7 +200,7 @@ public class ForeRESTController {
         if (null == keyword) {
             keyword = "";
         }
-        List<Product> products = productService.searchLike(keyword, 0, 20);
+        List<Product> products = productService.search(keyword, 0, 8);
         productImageService.setFirstProductImages(products);
         productService.setSaleAndReviewNumber(products);
         return products;

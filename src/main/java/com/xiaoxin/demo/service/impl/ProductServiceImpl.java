@@ -11,14 +11,7 @@ import com.xiaoxin.demo.service.ProductService;
 import com.xiaoxin.demo.service.ReviewService;
 import com.xiaoxin.demo.util.Page4Navigator;
 import com.xiaoxin.demo.util.SpringContextUtil;
-import org.elasticsearch.common.lucene.search.function.CombineFunction;
-import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
-import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilder;
-import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
-import org.elasticsearch.search.sort.SortBuilders;
-import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -143,16 +136,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> search(String keyword, int start, int size) {
         initDatabase2ES();
-        BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery().should(QueryBuilders.matchPhraseQuery("name", keyword));
-        ScoreFunctionBuilder scoreFunctionBuilder = ScoreFunctionBuilders.weightFactorFunction(100);
-        FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(queryBuilder, scoreFunctionBuilder).boostMode(CombineFunction.SUM);
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(start, size, sort);
-        SearchQuery searchQuery = new NativeSearchQueryBuilder()
-                .withPageable(pageable)
-                .withQuery(functionScoreQueryBuilder)
-                .withSort(SortBuilders.fieldSort("id").unmappedType("int").order(SortOrder.DESC))
-                .build();
+        SearchQuery searchQuery = new NativeSearchQueryBuilder().withPageable(pageable)
+                .withQuery(QueryBuilders.queryStringQuery(keyword)).build();
         Page<Product> products = productEsDao.search(searchQuery);
         return products.getContent();
     }
@@ -161,7 +148,7 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> searchLike(String keyword, int start, int size) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(start, size, sort);
-        List<Product> products =productDao.findByNameLike("%"+keyword+"%",pageable);
+        List<Product> products = productDao.findByNameLike("%" + keyword + "%", pageable);
         return products;
     }
 
@@ -170,14 +157,16 @@ public class ProductServiceImpl implements ProductService {
         return productDao.canDeleteCategory(cid);
     }
 
-    private void initDatabase2ES() {
-        Pageable pageable = PageRequest.of(0, 5);
+
+    private Pageable initDatabase2ES() {
+        Pageable pageable = PageRequest.of(0, 8);
         Page<Product> page = productEsDao.findAll(pageable);
         if (page.getContent().isEmpty()) {
-            Iterable<Product> products = productEsDao.findAll();
+            Iterable<Product> products = productDao.findAll();
             for (Product product : products) {
                 productEsDao.save(product);
             }
         }
+        return pageable;
     }
 }

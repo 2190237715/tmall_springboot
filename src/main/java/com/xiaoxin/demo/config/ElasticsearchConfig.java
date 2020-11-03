@@ -16,7 +16,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
  * @Description: 全局搜索配置
  * @date 2020/8/12 09:41
  */
-//@Configuration
+@Configuration
 @EnableElasticsearchRepositories(basePackages = "com.xiaoxin.demo.search",
         includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
                 value = ElasticsearchRepository.class))

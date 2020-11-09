@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @createDate 2019/11/25 10:36
  */
 @Entity
-@Table(name = "orderItem")
+@Table(name = "orderitem")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class OrderItem implements Serializable {
 

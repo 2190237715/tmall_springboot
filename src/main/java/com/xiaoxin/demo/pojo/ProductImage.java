@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @createDate 2019/11/19 16:05
  */
 @Entity
-@Table(name = "ProductImage")
+@Table(name = "productimage")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class ProductImage implements Serializable {
     @Id

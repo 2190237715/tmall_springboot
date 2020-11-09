@@ -17,7 +17,7 @@ import java.util.List;
  * @createDate 2019/11/19 14:16
  */
 @Entity
-@Table(name = "Product")
+@Table(name = "product")
 @Document(indexName = "tmall_springboot")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class Product  implements Serializable {

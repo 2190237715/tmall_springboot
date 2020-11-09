@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableCaching
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages="com.xiaoxin.demo.*")
 @EnableElasticsearchRepositories(basePackages = "com.xiaoxin.demo.search")
 @EnableJpaRepositories(basePackages = {"com.xiaoxin.demo.dao", "com.xiaoxin.demo.pojo"})
 public class Application extends SpringBootServletInitializer {
